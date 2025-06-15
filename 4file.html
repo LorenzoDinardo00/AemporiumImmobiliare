@@ -1,0 +1,1537 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aemporium Immobiliare</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="Progetto%20senza%20titolo%20(1).png">
+
+    <!-- Font Awesome per le icone -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* Variabili CSS per colori premium */
+        :root {
+            --gold: #ca8a04;
+            --gold-dark: #a16207;
+            --gold-light: #fbbf24;
+            --cream: #fef3c7;
+            --dark: #1f2937;
+            --light: #f9fafb;
+        }
+
+        /* Reset e stili base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4, .font-display {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        /* Container responsive con spacing adeguato */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        @media (min-width: 640px) {
+            .container {
+                padding: 0 1.5rem;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                padding: 0 2rem;
+            }
+        }
+
+        /* Loader iniziale */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: #ffffff;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.8s cubic-bezier(0.76, 0, 0.24, 1);
+        }
+
+        .loader.hide {
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(1.05);
+        }
+
+        .loader-content {
+            position: relative;
+            animation: loaderEntrance 1.2s ease-out;
+        }
+
+        .loader-logo {
+            width: 180px;
+            height: auto;
+            opacity: 0;
+            animation: logoReveal 1.5s ease-out forwards;
+            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.1));
+        }
+
+        @media (min-width: 768px) {
+            .loader-logo {
+                width: 280px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .loader-logo {
+                width: 350px;
+            }
+        }
+
+        @keyframes loaderEntrance {
+            0% {
+                transform: scale(0.8) translateY(20px);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes logoReveal {
+            0% {
+                opacity: 0;
+                transform: scale(0.9) rotate(-2deg);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(1.02) rotate(1deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        /* Shimmer effect for premium feel */
+        .loader-logo::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                    45deg,
+                    transparent 30%,
+                    rgba(202, 138, 4, 0.1) 50%,
+                    transparent 70%
+            );
+            transform: translateX(-100%);
+            animation: shimmer 2s 0.5s ease-out;
+        }
+
+        @keyframes shimmer {
+            to {
+                transform: translateX(100%);
+            }
+        }
+
+        /* Loading progress indicator */
+        .loader-progress {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 2px;
+            background: rgba(202, 138, 4, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .loader-progress::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0;
+            background: var(--gold);
+            animation: loadProgress 2s ease-out forwards;
+        }
+
+        @keyframes loadProgress {
+            to {
+                width: 100%;
+            }
+        }
+
+        /* Animazioni testo premium */
+        .split-text {
+            overflow: hidden;
+        }
+
+        .split-text span {
+            display: inline-block;
+            transform: translateY(100%);
+            opacity: 0;
+            animation: revealText 0.8s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+        }
+
+        @keyframes revealText {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Effetto parallax */
+        .parallax {
+            will-change: transform;
+        }
+
+        /* Glassmorphism moderno */
+        .glass {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .glass-dark {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Gradient premium */
+        .gradient-gold {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+        }
+
+        .gradient-luxury {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
+        }
+
+        /* Animazioni scroll */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @media (min-width: 768px) {
+            .fade-up {
+                transform: translateY(50px);
+            }
+        }
+
+        .fade-left {
+            opacity: 0;
+            transform: translateX(30px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @media (min-width: 768px) {
+            .fade-left {
+                transform: translateX(50px);
+            }
+        }
+
+        .fade-right {
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @media (min-width: 768px) {
+            .fade-right {
+                transform: translateX(-50px);
+            }
+        }
+
+        .scale-up {
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @media (min-width: 768px) {
+            .scale-up {
+                transform: scale(0.9);
+            }
+        }
+
+        .is-visible {
+            opacity: 1 !important;
+            transform: translate(0) scale(1) !important;
+        }
+
+        /* Bottoni premium */
+        .btn-luxury {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .btn-luxury::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .btn-luxury:hover::before {
+            left: 100%;
+        }
+
+        .btn-luxury:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(202, 138, 4, 0.3);
+        }
+
+        /* Card di proprietà premium */
+        .property-card {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .property-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        @media (max-width: 767px) {
+            .property-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+            }
+        }
+
+        .property-card img {
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .property-card:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Animazione numeri */
+        .counter {
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Testimonial card fluttuante */
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Linea decorativa animata */
+        .line-decoration {
+            position: relative;
+            display: inline-block;
+        }
+
+        .line-decoration::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--gold);
+            transition: width 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+        }
+
+        .line-decoration.active::after {
+            width: 100%;
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            z-index: 20;
+        }
+
+        @media (min-width: 768px) {
+            .scroll-indicator {
+                bottom: 40px;
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-20px); }
+            60% { transform: translateX(-50%) translateY(-10px); }
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--gold);
+            z-index: 9999;
+            transition: width 0.3s ease;
+            width: 0;
+        }
+
+        /* Effetto testo gradient */
+        .text-gradient {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Hero text shadow per migliore leggibilità */
+        .hero-text-shadow {
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Nav link hover effect */
+        .nav-link {
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Section spacing */
+        .section-padding {
+            padding-top: 4rem;
+            padding-bottom: 4rem;
+        }
+
+        @media (min-width: 640px) {
+            .section-padding {
+                padding-top: 5rem;
+                padding-bottom: 5rem;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .section-padding {
+                padding-top: 6rem;
+                padding-bottom: 6rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .section-padding {
+                padding-top: 8rem;
+                padding-bottom: 8rem;
+            }
+        }
+
+        /* Image reveal effect */
+        .image-reveal {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-reveal::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gold);
+            transform: translateX(-101%);
+            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+        }
+
+        .image-reveal.revealed::after {
+            transform: translateX(101%);
+        }
+
+        /* Mobile menu animation */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .mobile-menu-open {
+            animation: slideIn 0.3s ease-out;
+        }
+
+        /* Language switcher styles */
+        .lang-switcher button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+        .lang-switcher button.active {
+            opacity: 1;
+            font-weight: bold;
+        }
+
+        /* Custom styles for left-aligned logo */
+        .nav-container {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+        }
+
+        @media (min-width: 640px) {
+            .nav-container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .nav-container {
+                padding-left: 1rem;
+                padding-right: 2rem;
+            }
+        }
+
+        .logo-container {
+            margin-left: -0.25rem;
+        }
+
+        @media (min-width: 640px) {
+            .logo-container {
+                margin-left: -0.5rem;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .logo-container {
+                margin-left: -1rem;
+            }
+        }
+
+        /* Mobile-specific optimizations */
+        @media (max-width: 639px) {
+            /* Hero section mobile */
+            #hero {
+                min-height: 100vh;
+                display: flex;
+                padding-bottom: 100px;
+            }
+
+            /* Mobile typography */
+            .text-xs { font-size: 0.75rem; }
+            .text-sm { font-size: 0.875rem; }
+            .text-base { font-size: 1rem; }
+            .text-lg { font-size: 1.125rem; }
+            .text-xl { font-size: 1.25rem; }
+            .text-2xl { font-size: 1.5rem; }
+            .text-3xl { font-size: 1.875rem; }
+            .text-4xl { font-size: 2.25rem; }
+
+            /* Mobile spacing */
+            .mb-mobile-comfortable { margin-bottom: 1.5rem; }
+            .mt-mobile-comfortable { margin-top: 1.5rem; }
+            .py-mobile-comfortable { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+            .px-mobile-comfortable { padding-left: 1rem; padding-right: 1rem; }
+
+            /* Mobile buttons */
+            .btn-mobile-full {
+                width: 100%;
+                display: block;
+                text-align: center;
+            }
+
+            /* Property cards mobile */
+            .property-mobile-layout {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            /* Stats grid mobile */
+            .stats-mobile-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 1.5rem;
+            }
+        }
+
+        /* Smooth transitions for responsive changes */
+        @media (prefers-reduced-motion: no-preference) {
+            * {
+                transition-property: padding, margin, font-size;
+                transition-duration: 0.3s;
+                transition-timing-function: ease-in-out;
+            }
+        }
+        /* ---- NUOVI STILI MENU MOBILE ---- */
+        .no-scroll {
+            overflow: hidden;
+        }
+
+        @keyframes menu-fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        #mobile-menu.active {
+            animation: menu-fade-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes menu-item-fade-in {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        #mobile-menu.active .mobile-menu-link {
+            opacity: 0;
+            animation: menu-item-fade-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation-delay: calc(var(--i, 0) * 80ms + 200ms);
+        }
+        /* Stile per ombra testo menu mobile per leggibilità */
+        .menu-text-shadow {
+            text-shadow: 0px 2px 6px rgba(0, 0, 0, 0.8);
+        }
+        /* ---- FINE NUOVI STILI ---- */
+    </style>
+</head>
+<body>
+
+<!-- Progress Bar -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- Loader -->
+<div class="loader" id="loader">
+    <div class="loader-content">
+        <img src="Progetto%20senza%20titolo%20(1).png" alt="Dimore di Lusso" class="loader-logo">
+        <div class="loader-progress"></div>
+    </div>
+</div>
+<header id="header" class="fixed top-0 left-0 right-0 z-40 transition-all duration-500">
+    <div class="nav-container max-w-none mx-auto">
+        <nav class="flex items-center justify-between py-2 md:py-2">
+            <a href="#" class="logo-container transform transition-transform duration-300 hover:scale-105 -my-2 md:-my-4">
+                <img src="Progetto%20senza%20titolo%20(1).png" alt="Logo Dimore di Lusso" class="h-20 sm:h-20 md:h-24 lg:h-32 xl:h-40 w-auto">
+            </a>
+
+            <div id="desktop-menu" class="hidden lg:flex items-center space-x-10 font-medium">
+                <a href="#hero" class="nav-link text-white hero-text-shadow transition duration-300 hover:text-gold-light" data-lang-key="navHome">Home</a>
+                <a href="#properties" class="nav-link text-white hero-text-shadow transition duration-300 hover:text-gold-light" data-lang-key="navProperties">Immobili</a>
+                <a href="#about" class="nav-link text-white hero-text-shadow transition duration-300 hover:text-gold-light" data-lang-key="navAbout">Chi Siamo</a>
+                <a href="#services" class="nav-link text-white hero-text-shadow transition duration-300 hover:text-gold-light" data-lang-key="navServices">Servizi</a>
+                <a href="#contact" class="gradient-gold text-white font-semibold py-3 px-8 rounded-full btn-luxury shadow-lg ml-4" data-lang-key="navContact">
+                    Contattaci
+                </a>
+                <div class="lang-switcher flex items-center space-x-2 text-white hero-text-shadow ml-4">
+                    <button id="lang-it-desktop" data-lang="it">IT</button>
+                    <span>|</span>
+                    <button id="lang-en-desktop" data-lang="en">EN</button>
+                </div>
+            </div>
+
+            <button id="mobile-menu-button" class="lg:hidden text-white p-2 relative h-8 w-8 z-[60]">
+                <i id="menu-open-icon" class="fas fa-bars text-xl sm:text-2xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-300"></i>
+                <i id="menu-close-icon" class="fas fa-times text-xl sm:text-2xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-300 opacity-0 scale-75"></i>
+            </button>
+        </nav>
+    </div>
+</header>
+
+<div id="mobile-menu" class="hidden lg:hidden fixed inset-0 bg-dark/95 backdrop-blur-lg z-50">
+    <div class="container h-full flex flex-col items-center justify-center text-center space-y-8">
+        <a href="#hero" style="--i:0" class="mobile-menu-link menu-text-shadow font-display text-4xl text-amber-50 hover:text-gold-light transition-colors" data-lang-key="navHome">Home</a>
+        <a href="#properties" style="--i:1" class="mobile-menu-link menu-text-shadow font-display text-4xl text-amber-50 hover:text-gold-light transition-colors" data-lang-key="navProperties">Immobili</a>
+        <a href="#about" style="--i:2" class="mobile-menu-link menu-text-shadow font-display text-4xl text-amber-50 hover:text-gold-light transition-colors" data-lang-key="navAbout">Chi Siamo</a>
+        <a href="#services" style="--i:3" class="mobile-menu-link menu-text-shadow font-display text-4xl text-amber-50 hover:text-gold-light transition-colors" data-lang-key="navServices">Servizi</a>
+        <a href="#contact" style="--i:4" class="mobile-menu-link menu-text-shadow gradient-gold text-white font-semibold py-3 px-10 rounded-full btn-luxury shadow-lg mt-4 text-xl" data-lang-key="navContact">
+            Contattaci
+        </a>
+        <div style="--i:5" class="mobile-menu-link menu-text-shadow lang-switcher flex items-center justify-center space-x-4 text-amber-50 pt-8">
+            <button id="lang-it-mobile" data-lang="it" class="text-xl">IT</button>
+            <span class="text-gold-light">|</span>
+            <button id="lang-en-mobile" data-lang="en" class="text-xl">EN</button>
+        </div>
+    </div>
+</div>
+
+<main>
+    <!-- Sezione Hero -->
+    <section id="hero" class="relative h-screen min-h-[600px] md:min-h-[700px] flex items-end overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-black/10 via-black/30 to-black/70 z-10"></div>
+        <div class="parallax absolute inset-0">
+            <img src="AdobeStock_668209238.jpeg"
+                 alt="Veduta della Cattedrale di Santa Maria del Fiore a Firenze"
+                 class="w-full h-full object-cover object-center"
+                 onerror="this.onerror=null;this.src='https://images.pexels.com/photos/1666021/pexels-photo-1666021.jpeg?auto=compress&cs=tinysrgb&w=1920';">
+        </div>
+
+        <div class="relative z-20 container text-white text-center px-4 sm:px-6 pb-16 sm:pb-24 md:pb-32 lg:pb-40">
+            <div class="max-w-5xl mx-auto">
+                <p class="text-lg sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-display italic max-w-3xl mx-auto mb-8 sm:mb-12 fade-up hero-text-shadow leading-relaxed" data-lang-key="heroSubtitle">
+                    Scoprite le nostre esclusive residenze nel cuore delle più belle città d'arte italiane.
+                </p>
+
+                <div class="flex flex-row gap-3 sm:gap-6 justify-center items-center fade-up max-w-md mx-auto">
+                    <a href="#properties" data-lang-key="heroBtnExplore" class="flex-1 sm:flex-none gradient-gold text-white font-semibold py-3 px-5 sm:py-4 sm:px-10 rounded-full text-sm sm:text-lg btn-luxury shadow-2xl">
+                        Esplora le Proprietà
+                    </a>
+                    <a href="#contact" data-lang-key="heroBtnConsult" class="flex-1 sm:flex-none bg-black/20 border border-white/40 backdrop-blur-sm text-white font-semibold py-3 px-5 sm:py-4 sm:px-10 rounded-full text-sm sm:text-lg btn-luxury hover:bg-white/20 transition-colors">
+                        Richiedi Consulenza
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="scroll-indicator text-white">
+            <i class="fas fa-chevron-down text-xl md:text-2xl"></i>
+        </div>
+    </section>
+
+    <!-- Sezione Stats -->
+    <section class="py-12 sm:py-14 md:py-16 lg:py-20 gradient-luxury text-white">
+        <div class="container">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 md:gap-12 text-center stats-mobile-grid">
+                <div class="fade-up">
+                    <h3 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold counter mb-2 sm:mb-3" data-target="250">0</h3>
+                    <p class="text-xs sm:text-sm md:text-base opacity-80" data-lang-key="statsProperties">Proprietà Esclusive</p>
+                </div>
+                <div class="fade-up">
+                    <h3 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold counter mb-2 sm:mb-3" data-target="20">0</h3>
+                    <p class="text-xs sm:text-sm md:text-base opacity-80" data-lang-key="statsExperience">Anni di Esperienza</p>
+                </div>
+                <div class="fade-up">
+                    <h3 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold counter mb-2 sm:mb-3" data-target="100">0</h3>
+                    <p class="text-xs sm:text-sm md:text-base opacity-80" data-lang-key="statsSatisfaction">% Clienti Soddisfatti</p>
+                </div>
+                <div class="fade-up">
+                    <h3 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2 sm:mb-3"><span class="counter" data-target="50">0</span></h3>
+                    <p class="text-xs sm:text-sm md:text-base opacity-80" data-lang-key="statsValue">Valore Medio Immobiliare</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sezione Immobili in Evidenza -->
+    <section id="properties" class="section-padding bg-white">
+        <div class="container">
+            <div class="text-center mb-12 sm:mb-14 md:mb-16 lg:mb-20">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-display font-bold mb-4 sm:mb-6 fade-up">
+                    <span class="line-decoration" data-lang-key="featuredTitle">Immobili in Evidenza</span>
+                </h2>
+                <p class="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto fade-up px-4" data-lang-key="featuredSubtitle">
+                    Una selezione curata delle nostre migliori proposte, dove lusso e design si fondono in armonia perfetta.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12">
+                <!-- IMMOBILE PRINCIPALE -->
+                <div class="property-card bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-xl sm:shadow-2xl fade-right">
+                    <div class="relative h-64 sm:h-72 md:h-80 lg:h-96 image-reveal">
+                        <img src="img_2.png"
+                             alt="Interni eleganti di un appartamento storico"
+                             class="w-full h-full object-cover">
+                        <div class="absolute top-4 left-4 sm:top-6 sm:left-6 gradient-gold text-white text-xs sm:text-sm font-bold px-4 py-1.5 sm:px-5 sm:py-2 rounded-full shadow-lg" data-lang-key="propTag1">
+                            Affitto Esclusivo
+                        </div>
+                    </div>
+                    <div class="p-6 sm:p-8 md:p-10">
+                        <h3 class="text-xl sm:text-2xl md:text-3xl font-display font-bold mb-3 sm:mb-4" data-lang-key="propTitle1">Residenza d'Epoca</h3>
+                        <p class="text-gradient font-semibold mb-4 sm:mb-6 flex items-center text-base sm:text-lg">
+                            <i class="fas fa-map-marker-alt mr-2 sm:mr-3"></i> Firenze, Centro Storico
+                        </p>
+                        <p class="text-gray-600 mb-6 sm:mb-8 leading-relaxed text-sm sm:text-base" data-lang-key="propDesc1">
+                            Eleganza senza tempo in un palazzo storico del XV secolo. Affreschi originali restaurati e comfort contemporanei si fondono in 180mq di pura raffinatezza.
+                        </p>
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-6 border-t border-gray-100 pt-6 sm:pt-8">
+                            <div class="flex flex-wrap gap-4 sm:gap-6 text-gray-600 text-sm sm:text-base">
+                                <span class="flex items-center"><i class="fas fa-bed mr-1.5 sm:mr-2 text-gradient"></i> <span data-lang-key="propRooms">2 Camere</span></span>
+                                <span class="flex items-center"><i class="fas fa-bath mr-1.5 sm:mr-2 text-gradient"></i> <span data-lang-key="propBaths">2 Bagni</span></span>
+                                <span class="flex items-center"><i class="fas fa-expand mr-1.5 sm:mr-2 text-gradient"></i> 180 m²</span>
+                            </div>
+                            <div class="text-left sm:text-right w-full sm:w-auto">
+                                <p class="text-xs sm:text-sm text-gray-500 mb-1" data-lang-key="propPriceLabel1">Canone mensile</p>
+                                <span class="text-xl sm:text-2xl md:text-3xl font-bold">€ 8.000</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ALTRI IMMOBILI -->
+                <div class="space-y-6 sm:space-y-8">
+                    <!-- Villa Vista Mare -->
+                    <div class="property-card bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-lg sm:shadow-xl fade-left">
+                        <div class="flex flex-col md:flex-row">
+                            <div class="relative w-full md:w-2/5 h-56 sm:h-64 md:h-auto image-reveal">
+                                <img src="img_2.png"
+                                     alt="Villa moderna con piscina"
+                                     class="w-full h-full object-cover">
+                                <div class="absolute top-3 left-3 sm:top-4 sm:left-4 bg-emerald-600 text-white text-xs font-bold px-3 py-1 sm:px-4 sm:py-1.5 rounded-full" data-lang-key="propTag2">
+                                    Vendita
+                                </div>
+                            </div>
+                            <div class="p-5 sm:p-6 md:p-8 md:w-3/5 flex flex-col justify-between">
+                                <div>
+                                    <h3 class="text-lg sm:text-xl md:text-2xl font-display font-bold mb-2 sm:mb-3" data-lang-key="propTitle2">Villa Vista Mare</h3>
+                                    <p class="text-gradient font-semibold mb-3 sm:mb-4 flex items-center text-sm sm:text-base">
+                                        <i class="fas fa-map-marker-alt mr-1.5 sm:mr-2"></i> Costa Smeralda
+                                    </p>
+                                    <div class="flex flex-wrap items-center gap-3 sm:gap-4 text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base">
+                                        <span class="flex items-center"><i class="fas fa-bed mr-1 sm:mr-1.5"></i> 4</span>
+                                        <span class="flex items-center"><i class="fas fa-bath mr-1 sm:mr-1.5"></i> 5</span>
+                                        <span class="flex items-center"><i class="fas fa-expand mr-1 sm:mr-1.5"></i> 450 m²</span>
+                                    </div>
+                                </div>
+                                <p class="text-xl sm:text-2xl font-bold">€ 3.500.000</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Attico Panoramico -->
+                    <div class="property-card bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-lg sm:shadow-xl fade-left">
+                        <div class="flex flex-col md:flex-row">
+                            <div class="relative w-full md:w-2/5 h-56 sm:h-64 md:h-auto image-reveal">
+                                <img src="https://images.pexels.com/photos/1769356/pexels-photo-1769356.jpeg?auto=compress&cs=tinysrgb&w=600"
+                                     alt="Attico di lusso in città"
+                                     class="w-full h-full object-cover">
+                                <div class="absolute top-3 left-3 sm:top-4 sm:left-4 gradient-gold text-white text-xs font-bold px-3 py-1 sm:px-4 sm:py-1.5 rounded-full" data-lang-key="propTag3">
+                                    Vendita Premium
+                                </div>
+                            </div>
+                            <div class="p-5 sm:p-6 md:p-8 md:w-3/5 flex flex-col justify-between">
+                                <div>
+                                    <h3 class="text-lg sm:text-xl md:text-2xl font-display font-bold mb-2 sm:mb-3" data-lang-key="propTitle3">Attico Panoramico</h3>
+                                    <p class="text-gradient font-semibold mb-3 sm:mb-4 flex items-center text-sm sm:text-base">
+                                        <i class="fas fa-map-marker-alt mr-1.5 sm:mr-2"></i> Milano, CityLife
+                                    </p>
+                                    <div class="flex flex-wrap items-center gap-3 sm:gap-4 text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base">
+                                        <span class="flex items-center"><i class="fas fa-bed mr-1 sm:mr-1.5"></i> 3</span>
+                                        <span class="flex items-center"><i class="fas fa-bath mr-1 sm:mr-1.5"></i> 4</span>
+                                        <span class="flex items-center"><i class="fas fa-expand mr-1 sm:mr-1.5"></i> 320 m²</span>
+                                    </div>
+                                </div>
+                                <p class="text-xl sm:text-2xl font-bold">€ 4.200.000</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-12 sm:mt-14 md:mt-16 fade-up">
+                <a href="https://www.idealista.it/pro/ida-basta/" class="inline-flex items-center text-base sm:text-lg font-semibold text-gradient hover:opacity-80 transition-all duration-300 group" data-lang-key="viewAllProperties">
+                    Scopri tutte le proprietà
+                    <i class="fas fa-arrow-right ml-2 sm:ml-3 group-hover:translate-x-2 transition-transform"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sezione Chi Siamo -->
+    <section id="about" class="section-padding bg-gradient-to-br from-gray-50 to-white overflow-hidden">
+        <div class="container">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 md:gap-12 lg:gap-20 items-center">
+                <div class="order-2 lg:order-1 fade-right">
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-6 sm:mb-8">
+                        <span class="line-decoration block mb-2" data-lang-key="aboutTitle1">Esperti in Proprietà</span>
+                        <span class="text-gradient block" data-lang-key="aboutTitle2">di Prestigio</span>
+                    </h2>
+                    <div class="space-y-4 sm:space-y-6 text-gray-600 text-base sm:text-lg leading-relaxed mb-8 sm:mb-10">
+                        <p data-lang-key="aboutDesc1">
+                            Dimore di Lusso rappresenta l'eccellenza nel mercato immobiliare di prestigio. Con oltre 15 anni di esperienza, il nostro team di consulenti specializzati offre un servizio esclusivo e personalizzato.
+                        </p>
+                        <p data-lang-key="aboutDesc2">
+                            La nostra rete internazionale e la profonda conoscenza del mercato ci permettono di realizzare transazioni di successo mantenendo la massima riservatezza.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-10 sm:mb-12">
+                        <div class="glass p-5 sm:p-6 rounded-xl hover:shadow-lg transition-shadow">
+                            <i class="fas fa-award text-2xl sm:text-3xl text-gradient mb-3 sm:mb-4"></i>
+                            <h4 class="font-semibold mb-2 text-base sm:text-lg" data-lang-key="aboutCardTitle1">Eccellenza Certificata</h4>
+                            <p class="text-xs sm:text-sm text-gray-600" data-lang-key="aboutCardDesc1">Leader nel settore luxury real estate</p>
+                        </div>
+                        <div class="glass p-5 sm:p-6 rounded-xl hover:shadow-lg transition-shadow">
+                            <i class="fas fa-globe text-2xl sm:text-3xl text-gradient mb-3 sm:mb-4"></i>
+                            <h4 class="font-semibold mb-2 text-base sm:text-lg" data-lang-key="aboutCardTitle2">Network Globale</h4>
+                            <p class="text-xs sm:text-sm text-gray-600" data-lang-key="aboutCardDesc2">Clienti in oltre 50 paesi</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-10 sm:mt-12 text-center lg:text-left">
+                        <a href="#contact" class="gradient-gold text-white font-bold py-4 px-10 sm:py-5 sm:px-12 rounded-full btn-luxury inline-block shadow-lg text-base sm:text-lg transform hover:scale-105 transition-transform" data-lang-key="aboutBtn">
+                            Prenota una Consulenza
+                        </a>
+                    </div>
+                </div>
+
+                <div class="order-1 lg:order-2 relative px-4 sm:px-0">
+                    <div class="relative z-10 image-reveal fade-left">
+                        <img src="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=800"
+                             alt="Team di professionisti"
+                             class="rounded-xl sm:rounded-2xl shadow-xl sm:shadow-2xl w-full">
+                    </div>
+                    <div class="absolute -bottom-6 -left-6 sm:-bottom-10 sm:-left-10 w-40 h-40 sm:w-60 sm:h-60 lg:w-72 lg:h-72 bg-gradient-to-br from-yellow-200/20 to-yellow-400/20 rounded-full blur-3xl"></div>
+                    <div class="absolute -top-6 -right-6 sm:-top-10 sm:-right-10 w-40 h-40 sm:w-60 sm:h-60 lg:w-72 lg:h-72 bg-gradient-to-br from-yellow-400/20 to-yellow-200/20 rounded-full blur-3xl"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sezione Servizi -->
+    <section id="services" class="section-padding bg-white">
+        <div class="container">
+            <div class="text-center mb-12 sm:mb-14 md:mb-16 lg:mb-20">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-4 sm:mb-6 fade-up">
+                    <span class="line-decoration" data-lang-key="servicesTitle">Servizi Esclusivi</span>
+                </h2>
+                <p class="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto fade-up px-4" data-lang-key="servicesSubtitle">
+                    Un approccio su misura per ogni esigenza, con servizi premium che definiscono nuovi standard nel luxury real estate.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 lg:gap-10">
+                <div class="group relative overflow-hidden rounded-xl sm:rounded-2xl glass p-6 sm:p-8 lg:p-10 text-center scale-up hover:shadow-2xl transition-all duration-500">
+                    <div class="absolute inset-0 gradient-gold opacity-0 group-hover:opacity-10 transition-opacity duration-500"></div>
+                    <div class="relative z-10">
+                        <div class="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-6 sm:mb-8 rounded-full glass-dark flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                            <i class="fas fa-gem text-2xl sm:text-3xl text-gradient"></i>
+                        </div>
+                        <h3 class="text-lg sm:text-xl md:text-2xl font-display font-bold mb-3 sm:mb-4" data-lang-key="service1Title">Valutazioni Premium</h3>
+                        <p class="text-gray-600 leading-relaxed text-sm sm:text-base" data-lang-key="service1Desc">Analisi di mercato avanzate con tecnologie AI per valutazioni precise e strategiche del vostro patrimonio.</p>
+                    </div>
+                </div>
+
+                <div class="group relative overflow-hidden rounded-xl sm:rounded-2xl glass p-6 sm:p-8 lg:p-10 text-center scale-up hover:shadow-2xl transition-all duration-500">
+                    <div class="absolute inset-0 gradient-gold opacity-0 group-hover:opacity-10 transition-opacity duration-500"></div>
+                    <div class="relative z-10">
+                        <div class="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-6 sm:mb-8 rounded-full glass-dark flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                            <i class="fas fa-shield-alt text-2xl sm:text-3xl text-gradient"></i>
+                        </div>
+                        <h3 class="text-lg sm:text-xl md:text-2xl font-display font-bold mb-3 sm:mb-4" data-lang-key="service2Title">Consulenza 360°</h3>
+                        <p class="text-gray-600 leading-relaxed text-sm sm:text-base" data-lang-key="service2Desc">Team dedicato di esperti legali e fiscali per gestire ogni aspetto della transazione con massima sicurezza.</p>
+                    </div>
+                </div>
+
+                <div class="group relative overflow-hidden rounded-xl sm:rounded-2xl glass p-6 sm:p-8 lg:p-10 text-center scale-up hover:shadow-2xl transition-all duration-500 sm:col-span-2 md:col-span-1">
+                    <div class="absolute inset-0 gradient-gold opacity-0 group-hover:opacity-10 transition-opacity duration-500"></div>
+                    <div class="relative z-10">
+                        <div class="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-6 sm:mb-8 rounded-full glass-dark flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                            <i class="fas fa-chart-line text-2xl sm:text-3xl text-gradient"></i>
+                        </div>
+                        <h3 class="text-lg sm:text-xl md:text-2xl font-display font-bold mb-3 sm:mb-4" data-lang-key="service3Title">Marketing d'Elite</h3>
+                        <p class="text-gray-600 leading-relaxed text-sm sm:text-base" data-lang-key="service3Desc">Strategie digitali innovative e network esclusivi per massimizzare la visibilità nel mercato luxury globale.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sezione Testimonianze -->
+    <section id="testimonials" class="section-padding gradient-luxury text-white overflow-hidden">
+        <div class="container">
+            <div class="text-center mb-12 sm:mb-14 md:mb-16 lg:mb-20">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-4 sm:mb-6 fade-up" data-lang-key="testimonialsTitle">La Voce dei Nostri Clienti</h2>
+                <p class="text-base sm:text-lg md:text-xl opacity-80 max-w-3xl mx-auto fade-up px-4" data-lang-key="testimonialsSubtitle">
+                    Storie di successo che testimoniano il nostro impegno per l'eccellenza.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 max-w-5xl mx-auto">
+                <div class="glass-dark p-6 sm:p-8 lg:p-10 rounded-xl sm:rounded-2xl floating fade-up">
+                    <div class="flex mb-4 sm:mb-6">
+                        <i class="fas fa-star text-yellow-400 text-sm sm:text-base"></i>
+                        <i class="fas fa-star text-yellow-400 ml-1 text-sm sm:text-base"></i>
+                        <i class="fas fa-star text-yellow-400 ml-1 text-sm sm:text-base"></i>
+                        <i class="fas fa-star text-yellow-400 ml-1 text-sm sm:text-base"></i>
+                        <i class="fas fa-star text-yellow-400 ml-1 text-sm sm:text-base"></i>
+                    </div>
+                    <p class="text-base sm:text-lg md:text-xl mb-6 sm:mb-8 italic opacity-90 leading-relaxed" data-lang-key="testimonial1">
+                        "Un servizio impeccabile. Hanno trasformato la ricerca della casa in un'esperienza piacevole e senza stress. Professionalità e dedizione ai massimi livelli."
+                    </p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full gradient-gold mr-3 sm:mr-4"></div>
+                        <div>
+                            <p class="font-display font-bold text-lg sm:text-xl">Lorenzo D.</p>
+                            <p class="text-yellow-400 text-xs sm:text-sm" data-lang-key="testimonial1Author">Ingegnere, Bagno a Ripoli</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-dark p-6 sm:p-8 lg:p-10 rounded-xl sm:rounded-2xl floating fade-up">
+                    <div class="flex mb-4 sm:mb-6">
+                        <i class="fas fa-star text-yellow-400 text-sm sm:text-base"></i>
+                        <i class="fas fa-star text-yellow-400 ml-1 text-sm sm:text-base"></i>
+                        <i class="fas fa-star text-yellow-400 ml-1 text-sm sm:text-base"></i>
+                        <i class="fas fa-star text-yellow-400 ml-1 text-sm sm:text-base"></i>
+                        <i class="fas fa-star text-yellow-400 ml-1 text-sm sm:text-base"></i>
+                    </div>
+                    <p class="text-base sm:text-lg md:text-xl mb-6 sm:mb-8 italic opacity-90 leading-relaxed" data-lang-key="testimonial2">
+                        "La vendita della nostra proprietà storica richiedeva sensibilità e competenza. Æmporium Immobiliare ha superato ogni aspettativa con risultati straordinari."
+                    </p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full gradient-gold mr-3 sm:mr-4"></div>
+                        <div>
+                            <p class="font-display font-bold text-lg sm:text-xl">Sofia S.</p>
+                            <p class="text-yellow-400 text-xs sm:text-sm" data-lang-key="testimonial2Author">Firenze</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section-padding bg-white">
+        <div class="container">
+            <div class="max-w-4xl mx-auto glass p-8 sm:p-10 md:p-16 rounded-2xl sm:rounded-3xl shadow-xl sm:shadow-2xl fade-up text-center">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-display font-bold mb-4 sm:mb-6" data-lang-key="ctaTitle">Inizia il Tuo Viaggio nel Lusso</h2>
+                <p class="text-base sm:text-lg md:text-xl text-gray-600 mb-8 sm:mb-10 max-w-2xl mx-auto px-4" data-lang-key="ctaSubtitle">
+                    Che tu stia cercando la residenza dei tuoi sogni o desideri valorizzare la tua proprietà, siamo qui per guidarti verso il successo.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center max-w-md sm:max-w-none mx-auto">
+                    <a href="#contact" class="gradient-gold text-white font-semibold py-3 px-6 sm:py-4 sm:px-8 rounded-full btn-luxury shadow-lg text-sm sm:text-base" data-lang-key="ctaBtn1">
+                        Richiedi Valutazione Gratuita
+                    </a>
+                    <a href="tel:+39 3493104924" class="glass text-gray-800 font-semibold py-3 px-6 sm:py-4 sm:px-8 rounded-full btn-luxury border border-gray-300 hover:border-gray-400 text-sm sm:text-base">
+                        <i class="fas fa-phone mr-2 sm:mr-3"></i>
+                        <span data-lang-key="ctaBtn2">Chiama Ora</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer id="contact" class="gradient-luxury text-white py-12 sm:py-14 md:py-16 lg:py-20">
+    <div class="container">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-12 mb-10 sm:mb-12">
+            <div class="sm:col-span-2 lg:col-span-2">
+                <img src="Progetto%20senza%20titolo%20(1).png" alt="Logo Dimore di Lusso" class="h-20 sm:h-24 md:h-32 lg:h-40 w-auto mb-6 sm:mb-8 -mt-2 sm:-mt-4">
+                <p class="text-base sm:text-lg opacity-80 mb-6 sm:mb-8 max-w-md leading-relaxed" data-lang-key="footerSlogan">
+                    La vostra porta d'accesso alle proprietà più esclusive d'Italia. Dove il lusso incontra l'eccellenza.
+                </p>
+                <div class="flex space-x-3 sm:space-x-4">
+                    <a href="#" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full glass-dark flex items-center justify-center hover:bg-white/20 transition">
+                        <i class="fab fa-instagram text-lg sm:text-xl"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full glass-dark flex items-center justify-center hover:bg-white/20 transition">
+                        <i class="fab fa-facebook-f text-lg sm:text-xl"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full glass-dark flex items-center justify-center hover:bg-white/20 transition">
+                        <i class="fab fa-linkedin-in text-lg sm:text-xl"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full glass-dark flex items-center justify-center hover:bg-white/20 transition">
+                        <i class="fab fa-youtube text-lg sm:text-xl"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-lg sm:text-xl font-display font-bold mb-6 sm:mb-8" data-lang-key="footerContactsTitle">Contatti Diretti</h3>
+                <ul class="space-y-3 sm:space-y-4 opacity-80 text-sm sm:text-base">
+                    <li class="flex items-start">
+                        <i class="fas fa-map-marker-alt mr-2 sm:mr-3 mt-1 text-yellow-400"></i>
+                        <span>Viale Antonio Gramsci, 42<br>50132 Firenze (FI)</span>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-envelope mr-2 sm:mr-3 text-yellow-400"></i>
+                        <a href="mailto:aemporiumimmobiliare@gmail.com" class="hover:text-yellow-400 transition break-all">aemporiumimmobiliare@gmail.com</a>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-phone mr-2 sm:mr-3 text-yellow-400"></i>
+                        <a href="tel:+39 3493104924" class="hover:text-yellow-400 transition">+39 3493104924</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="text-lg sm:text-xl font-display font-bold mb-6 sm:mb-8" data-lang-key="footerHoursTitle">Orari</h3>
+                <ul class="space-y-2 sm:space-y-3 opacity-80 text-sm sm:text-base">
+                    <li data-lang-key="footerHours1">Lun - Ven: 9:00 - 19:00</li>
+                    <li data-lang-key="footerHours2">Sabato: 10:00 - 17:00</li>
+                </ul>
+                <div class="mt-6 sm:mt-8">
+                    <a href="tel:+39 3493104924" class="text-yellow-400 hover:text-yellow-300 transition inline-flex items-center group text-sm sm:text-base" data-lang-key="footerAppointment">
+                        Prenota Appuntamento
+                        <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="border-t border-white/20 pt-6 sm:pt-8 text-center opacity-60 text-xs sm:text-sm">
+            <p data-lang-key="footerCopyright">&copy; 2024 Dimore di Lusso. Tutti i diritti riservati. P.IVA 12345678901</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Pulsante Scroll to Top -->
+<button id="scrollTopBtn" class="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 gradient-gold text-white p-3 sm:p-4 rounded-full shadow-xl sm:shadow-2xl opacity-0 invisible hover:scale-110 transition-all duration-300 z-40">
+    <i class="fas fa-arrow-up text-sm sm:text-base"></i>
+</button>
+<script>
+    // Translations object
+    const translations = {
+        it: {
+            loaderTitle: "Dimore di Lusso",
+            navHome: "Home",
+            navProperties: "Immobili",
+            navAbout: "Chi Siamo",
+            navServices: "Servizi",
+            navContact: "Contattaci",
+            heroSubtitle: "... DOVE le tue esigenze trovano CASA",
+            heroBtnExplore: "Esplora le Proprietà",
+            heroBtnConsult: "Richiedi Consulenza",
+            statsProperties: "Contatti mensili",
+            statsExperience: "Anni di Esperienza",
+            statsSatisfaction: "% Clienti Soddisfatti",
+            statsValue: "Contatti Internazionali",
+            featuredTitle: "Immobili in Evidenza",
+            featuredSubtitle: "Una selezione curata delle nostre migliori proposte, dove lusso e design si fondono in armonia perfetta.",
+            propTag1: "Affitto Esclusivo",
+            propTitle1: "Residenza d'Epoca",
+            propDesc1: "Eleganza senza tempo in un palazzo storico del XV secolo. Affreschi originali restaurati e comfort contemporanei si fondono in 180mq di pura raffinatezza.",
+            propRooms: "2 Camere",
+            propBaths: "2 Bagni",
+            propPriceLabel1: "Canone mensile",
+            propTag2: "Vendita",
+            propTitle2: "Villa Vista Mare",
+            propTag3: "Vendita Premium",
+            propTitle3: "Attico Panoramico",
+            viewAllProperties: "Scopri tutte le proprietà",
+            aboutTitle1: "Esperti in Proprietà",
+            aboutTitle2: "di Prestigio",
+            aboutDesc1: "Æmporium Immobiliare è un punto di riferimento nel settore immobiliare, specializzata nella compravendita e locazione di immobili residenziali, commerciali e turistici. Con anni di esperienza e una profonda conoscenza del mercato locale, offriamo un servizio su misura, professionale e trasparente, accompagnando i nostri clienti in ogni fase della trattativa.\n" ,
+
+            aboutDesc2: "Che tu stia cercando la casa dei tuoi sogni, un investimento sicuro o il miglior inquilino per il tuo immobile, il nostro team è pronto ad ascoltarti, consigliarti e supportarti con competenza e passione.",
+            aboutCardTitle1: "Eccellenza Certificata",
+            aboutCardDesc1: "Leader nel settore luxury real estate",
+            aboutCardTitle2: "Network Globale",
+            aboutCardDesc2: "Clienti in oltre 50 paesi",
+            aboutBtn: "Prenota una Consulenza",
+            servicesTitle: "Servizi Esclusivi",
+            servicesSubtitle: "Un approccio su misura per ogni esigenza, con servizi che definiscono nuovi standard nel mondo immobiliare.",
+            service1Title: "Valutazioni Immobiliare",
+            service1Desc: "Analisi di mercato avanzate per valutazioni precise e strategiche del vostro patrimonio.",
+            service2Title: "Consulenza 360°",
+            service2Desc: "Team dedicato di esperti legali e fiscali per gestire ogni aspetto della transazione con massima sicurezza.",
+            service3Title: "Promozione e visibilità degli immobili",
+            service3Desc: "Strategie digitali innovative e network esclusivi per massimizzare la visibilità nel mercato italiano.",
+            testimonialsTitle: "La Voce dei Nostri Clienti",
+            testimonialsSubtitle: "Storie di successo che testimoniano il nostro impegno per l'eccellenza.",
+            testimonial1: "\"Un servizio impeccabile. Hanno trasformato la ricerca della casa in un'esperienza piacevole e senza stress. Professionalità e dedizione ai massimi livelli.\"",
+            testimonial1Author: "Ingegnere, Bagno a Ripoli",
+            testimonial2: "\"La vendita della nostra proprietà storica richiedeva sensibilità e competenza. Æmporium Immobiliare ha superato ogni aspettativa con risultati straordinari.\"",
+            testimonial2Author: "Firenze",
+            ctaTitle: "Inizia il tuo viaggio nel mondo Immobiliare",
+            ctaSubtitle: "Che tu stia cercando la residenza dei tuoi sogni o desideri valorizzare la tua proprietà, siamo qui per guidarti verso il successo.",
+            ctaBtn1: "Richiedi Valutazione Gratuita",
+            ctaBtn2: "Chiama Ora",
+            footerSlogan: "L'eccellenza non è un dettaglio, è la nostra regola",
+            footerContactsTitle: "Contatti Diretti",
+            footerHoursTitle: "Orari",
+            footerHours1: "Lun - Ven: 9:00 - 19:00",
+            footerHours2: "Sabato: 9:00 - 13:00",
+            footerAppointment: "Prenota Appuntamento",
+            footerCopyright: "© 2025 Æmporium Immobiliare. Tutti i diritti riservati. P.IVA 06143640487"
+        },
+        en: {
+            loaderTitle: "Luxury Homes",
+            navHome: "Home",
+            navProperties: "Properties",
+            navAbout: "About Us",
+            navServices: "Services",
+            navContact: "Contact Us",
+            heroSubtitle: "Discover our exclusive residences in the heart of Italy's most beautiful art cities.",
+            heroBtnExplore: "Explore Properties",
+            heroBtnConsult: "Request Consultation",
+            statsProperties: "Exclusive Properties",
+            statsExperience: "Years of Experience",
+            statsSatisfaction: "% Satisfied Clients",
+            statsValue: "Transaction Value",
+            featuredTitle: "Featured Properties",
+            featuredSubtitle: "A curated selection of our best proposals, where luxury and design merge in perfect harmony.",
+            propTag1: "Exclusive Rent",
+            propTitle1: "Historic Residence",
+            propDesc1: "Timeless elegance in a historic 15th-century palace. Restored original frescoes and contemporary comforts blend in 180sqm of pure refinement.",
+            propRooms: "2 Bedrooms",
+            propBaths: "2 Bathrooms",
+            propPriceLabel1: "Monthly rent",
+            propTag2: "For Sale",
+            propTitle2: "Sea View Villa",
+            propTag3: "Premium Sale",
+            propTitle3: "Panoramic Penthouse",
+            viewAllProperties: "Discover all properties",
+            aboutTitle1: "Experts in Prestige",
+            aboutTitle2: "Properties",
+            aboutDesc1: "Dimore di Lusso represents excellence in the luxury real estate market. With over 15 years of experience, our team of specialized consultants offers an exclusive and personalized service.",
+            aboutDesc2: "Our international network and deep market knowledge allow us to carry out successful transactions while maintaining the utmost confidentiality.",
+            aboutCardTitle1: "Certified Excellence",
+            aboutCardDesc1: "Leader in the luxury real estate sector",
+            aboutCardTitle2: "Global Network",
+            aboutCardDesc2: "Clients in over 50 countries",
+            aboutBtn: "Book a Consultation",
+            servicesTitle: "Exclusive Services",
+            servicesSubtitle: "A tailored approach for every need, with premium services that set new standards in luxury real estate.",
+            service1Title: "Premium Valuations",
+            service1Desc: "Advanced market analysis with AI technologies for precise and strategic valuations of your assets.",
+            service2Title: "360° Consulting",
+            service2Desc: "A dedicated team of legal and tax experts to manage every aspect of the transaction with maximum security.",
+            service3Title: "Elite Marketing",
+            service3Desc: "Innovative digital strategies and exclusive networks to maximize visibility in the global luxury market.",
+            testimonialsTitle: "The Voice of Our Clients",
+            testimonialsSubtitle: "Success stories that testify to our commitment to excellence.",
+            testimonial1: "\"An impeccable service. They turned the house search into a pleasant and stress-free experience. Professionalism and dedication at the highest levels.\"",
+            testimonial1Author: "Entrepreneur, Milan",
+            testimonial2: "\"Selling our historic property required sensitivity and expertise. Dimore di Lusso exceeded all expectations with extraordinary results.\"",
+            testimonial2Author: "Lake Como",
+            ctaTitle: "Start Your Journey in Luxury",
+            ctaSubtitle: "Whether you're looking for your dream residence or want to enhance your property's value, we're here to guide you to success.",
+            ctaBtn1: "Request Free Valuation",
+            ctaBtn2: "Call Now",
+            footerSlogan: "Your gateway to the most exclusive properties in Italy. Where luxury meets excellence.",
+            footerContactsTitle: "Direct Contacts",
+            footerHoursTitle: "Opening Hours",
+            footerHours1: "Mon - Fri: 9:00 AM - 7:00 PM",
+            footerHours2: "Saturday: 10:00 AM - 5:00 PM",
+            footerHours3: "Sunday: By appointment",
+            footerAppointment: "Book Appointment",
+            footerCopyright: "© 2024 Dimore di Lusso. All rights reserved. VAT ID 12345678901"
+        }
+    };
+
+    // In-memory storage fallback for sandboxed environments
+    let currentLanguage = 'it';
+
+    // Safe localStorage access with fallback
+    const safeLocalStorage = {
+        getItem: (key) => {
+            try {
+                return localStorage.getItem(key);
+            } catch (e) {
+                return currentLanguage;
+            }
+        },
+        setItem: (key, value) => {
+            try {
+                localStorage.setItem(key, value);
+            } catch (e) {
+                currentLanguage = value;
+            }
+        }
+    };
+
+    // Function to set the language
+    const setLanguage = (lang) => {
+        document.documentElement.lang = lang;
+        safeLocalStorage.setItem('language', lang);
+
+        document.querySelectorAll('[data-lang-key]').forEach(element => {
+            const key = element.getAttribute('data-lang-key');
+            if (translations[lang] && translations[lang][key]) {
+                const icon = element.querySelector('i');
+                if (icon && element.childNodes.length > 1) {
+                    for (const node of element.childNodes) {
+                        if (node.nodeType === Node.TEXT_NODE && node.textContent.trim().length > 0) {
+                            node.textContent = ` ${translations[lang][key]} `;
+                            break;
+                        } else if(node.tagName === 'SPAN'){
+                            node.textContent = translations[lang][key];
+                            break;
+                        }
+                    }
+                } else {
+                    element.textContent = translations[lang][key];
+                }
+            }
+        });
+
+        document.querySelectorAll('.lang-switcher button').forEach(button => {
+            button.classList.remove('active');
+            if (button.getAttribute('data-lang') === lang) {
+                button.classList.add('active');
+            }
+        });
+    };
+
+    // --- Improved Loader Logic ---
+    const hideLoader = () => {
+        const loader = document.getElementById('loader');
+        if (loader && !loader.classList.contains('hide')) {
+            loader.classList.add('hide');
+            loader.addEventListener('transitionend', () => {
+                loader.style.display = 'none';
+            }, { once: true });
+        }
+    };
+
+    window.addEventListener('load', () => {
+        setTimeout(hideLoader, 2500);
+    });
+    setTimeout(hideLoader, 4000);
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // ---- LANGUAGE SWITCHER LOGIC ----
+        const langButtons = document.querySelectorAll('.lang-switcher button');
+        langButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const lang = e.target.getAttribute('data-lang');
+                setLanguage(lang);
+            });
+        });
+        const initialLang = safeLocalStorage.getItem('language') || 'it';
+        setLanguage(initialLang);
+
+        // ---- PROGRESS BAR ----
+        const progressBar = document.getElementById('progressBar');
+        if (progressBar) {
+            window.addEventListener('scroll', () => {
+                const winScroll = document.documentElement.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (winScroll / height) * 100;
+                progressBar.style.width = scrolled + '%';
+            });
+        }
+
+        // ---- HEADER AND MENU LOGIC ----
+        const header = document.getElementById('header');
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+        const desktopNavLinks = document.querySelectorAll('#desktop-menu .nav-link');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const openIcon = document.getElementById('menu-open-icon');
+        const closeIcon = document.getElementById('menu-close-icon');
+        const langSwitcherText = document.querySelectorAll('.lang-switcher, .lang-switcher span');
+
+        function updateHeaderColors() {
+            const isMenuOpen = !mobileMenu.classList.contains('hidden');
+            if (window.pageYOffset > 100) {
+                header.classList.add('glass', 'shadow-lg');
+                desktopNavLinks.forEach(link => {
+                    link.classList.remove('text-white', 'hero-text-shadow');
+                    link.classList.add('text-gray-800');
+                });
+                if (!isMenuOpen) {
+                    mobileMenuButton.classList.remove('text-white');
+                    mobileMenuButton.classList.add('text-gray-800');
+                }
+                langSwitcherText.forEach(el => {
+                    el.classList.remove('text-white', 'hero-text-shadow');
+                    el.classList.add('text-gray-800');
+                });
+            } else {
+                header.classList.remove('glass', 'shadow-lg');
+                desktopNavLinks.forEach(link => {
+                    link.classList.remove('text-gray-800');
+                    link.classList.add('text-white', 'hero-text-shadow');
+                });
+                if (!isMenuOpen) {
+                    mobileMenuButton.classList.remove('text-gray-800');
+                    mobileMenuButton.classList.add('text-white');
+                }
+                langSwitcherText.forEach(el => {
+                    el.classList.remove('text-gray-800');
+                    el.classList.add('text-white', 'hero-text-shadow');
+                });
+            }
+        }
+
+        function toggleMenu() {
+            const isHidden = mobileMenu.classList.contains('hidden');
+
+            if (isHidden) {
+                // APRI MENU
+                document.body.classList.add('no-scroll');
+                mobileMenu.classList.remove('hidden');
+                mobileMenu.classList.add('active');
+
+                openIcon.classList.add('opacity-0', 'scale-75');
+                closeIcon.classList.remove('opacity-0', 'scale-75');
+                mobileMenuButton.classList.remove('text-gray-800');
+                mobileMenuButton.classList.add('text-white'); // Forza icona bianca su menu aperto
+            } else {
+                // CHIUDI MENU
+                document.body.classList.remove('no-scroll');
+                mobileMenu.classList.add('hidden');
+                mobileMenu.classList.remove('active');
+
+                openIcon.classList.remove('opacity-0', 'scale-75');
+                closeIcon.classList.add('opacity-0', 'scale-75');
+                updateHeaderColors(); // Ripristina il colore corretto dell'icona
+            }
+        }
+
+        window.addEventListener('scroll', () => {
+            // NUOVA LOGICA: Chiude il menu se aperto durante lo scroll
+            const isMenuOpen = !mobileMenu.classList.contains('hidden');
+            if (isMenuOpen) {
+                toggleMenu();
+            }
+
+            updateHeaderColors();
+            if (scrollTopBtn) {
+                if (window.pageYOffset > 300) {
+                    scrollTopBtn.classList.remove('opacity-0', 'invisible');
+                } else {
+                    scrollTopBtn.classList.add('opacity-0', 'invisible');
+                }
+            }
+        });
+
+        if (mobileMenuButton) {
+            mobileMenuButton.addEventListener('click', toggleMenu);
+        }
+
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+
+        // ---- PARALLAX EFFECT ----
+        const parallaxElements = document.querySelectorAll('.parallax');
+        if (parallaxElements.length > 0 && window.innerWidth > 768) {
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+                parallaxElements.forEach(el => {
+                    const speed = 0.5;
+                    el.style.transform = `translateY(${scrolled * speed}px)`;
+                });
+            });
+        }
+
+        // ---- ANIMATION OBSERVER ----
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    if (entry.target.classList.contains('counter')) {
+                        animateCounter(entry.target);
+                        observer.unobserve(entry.target);
+                    }
+                    if (entry.target.classList.contains('line-decoration')) {
+                        setTimeout(() => entry.target.classList.add('active'), 300);
+                    }
+                    if (entry.target.classList.contains('image-reveal')) {
+                        setTimeout(() => entry.target.classList.add('revealed'), 200);
+                    }
+                }
+            });
+        }, observerOptions);
+
+        const elementsToObserve = document.querySelectorAll('.fade-up, .fade-left, .fade-right, .scale-up, .counter, .line-decoration, .image-reveal');
+        elementsToObserve.forEach(el => observer.observe(el));
+
+        // ---- COUNTER ANIMATION ----
+        function animateCounter(el) {
+            const target = parseInt(el.getAttribute('data-target')) || 0;
+            if (target === 0 && el.textContent === '0') return;
+            const duration = 2000;
+            let start = 0;
+            const stepTime = 16;
+            const totalSteps = Math.round(duration / stepTime);
+            const increment = target / totalSteps;
+            const updateCounter = () => {
+                start += increment;
+                if (start < target) {
+                    el.textContent = Math.floor(start);
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    el.textContent = target;
+                }
+            };
+            updateCounter();
+        }
+
+        // ---- SMOOTH SCROLL ----
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId.length > 1) {
+                    const target = document.querySelector(targetId);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }
+            });
+        });
+
+        // ---- SCROLL TO TOP BUTTON ----
+        if (scrollTopBtn) {
+            scrollTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+    });
+</script>
+
+</body>
+</html>
