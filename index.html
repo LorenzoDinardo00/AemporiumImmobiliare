@@ -658,6 +658,155 @@
             text-shadow: 0px 2px 6px rgba(0, 0, 0, 0.8);
         }
         /* ---- FINE NUOVI STILI ---- */
+        .gradient-gold {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-luxury {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .btn-luxury::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .btn-luxury:hover::before {
+            left: 100%;
+        }
+
+        .btn-luxury:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(202, 138, 4, 0.3);
+        }
+
+        .cookie-banner {
+            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-out {
+            animation: fadeOut 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: translateY(100%);
+            }
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Cookie preferences modal */
+        .modal {
+            animation: modalFadeIn 0.4s ease-out;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 48px;
+            height: 24px;
+            background: #e5e7eb;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .toggle-switch.active {
+            background: var(--gold);
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .toggle-switch.active::after {
+            transform: translateX(24px);
+        }
+
+
+        .tempora-credit {
+            margin-top: 1.75rem;
+            font-size: 0.75rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--cream);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            opacity: 0.7;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .tempora-credit::before,
+        .tempora-credit::after {
+            content: "";
+            width: 32px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6));
+        }
+
+        .tempora-credit::after {
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.6), transparent);
+        }
+
+        .tempora-credit:hover {
+            opacity: 1;
+            transform: translateY(-2px);
+        }
+
     </style>
 </head>
 <body>
@@ -695,14 +844,16 @@
             </div>
 
             <button id="mobile-menu-button" class="lg:hidden text-white p-2 relative h-8 w-8 z-[60]">
-                <i id="menu-open-icon" class="fas fa-bars text-xl sm:text-2xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-300"></i>
-                <i id="menu-close-icon" class="fas fa-times text-xl sm:text-2xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-300 opacity-0 scale-75"></i>
+                <i id="menu-open-icon" class="fas fa-bars text-xl sm:text-2xl absolute inset-0 flex items-center justify-center transition-all duration-300"></i>
             </button>
         </nav>
     </div>
 </header>
 
 <div id="mobile-menu" class="hidden lg:hidden fixed inset-0 bg-dark/95 backdrop-blur-lg z-50">
+    <button id="mobile-menu-close-button" class="absolute top-5 right-6 sm:top-6 sm:right-8 text-black p-2 z-[51]">
+        <i class="fas fa-times text-3xl sm:text-4xl"></i>
+    </button>
     <div class="container h-full flex flex-col items-center justify-center text-center space-y-8">
         <a href="#hero" style="--i:0" class="mobile-menu-link menu-text-shadow font-display text-4xl text-amber-50 hover:text-gold-light transition-colors" data-lang-key="navHome">Home</a>
         <a href="#properties" style="--i:1" class="mobile-menu-link menu-text-shadow font-display text-4xl text-amber-50 hover:text-gold-light transition-colors" data-lang-key="navProperties">Immobili</a>
@@ -802,7 +953,7 @@
                     <div class="p-6 sm:p-8 md:p-10">
                         <h3 class="text-xl sm:text-2xl md:text-3xl font-display font-bold mb-3 sm:mb-4" data-lang-key="propTitle1">Residenza d'Epoca</h3>
                         <p class="text-gradient font-semibold mb-4 sm:mb-6 flex items-center text-base sm:text-lg">
-                            <i class="fas fa-map-marker-alt mr-2 sm:mr-3"></i> Firenze, Centro Storico
+                            <i class="fas fa-map-marker-alt mr-2 sm:mr-3"></i> Firenze
                         </p>
                         <p class="text-gray-600 mb-6 sm:mb-8 leading-relaxed text-sm sm:text-base" data-lang-key="propDesc1">
                             Eleganza senza tempo in un palazzo storico del XV secolo. Affreschi originali restaurati e comfort contemporanei si fondono in 180mq di pura raffinatezza.
@@ -811,11 +962,10 @@
                             <div class="flex flex-wrap gap-4 sm:gap-6 text-gray-600 text-sm sm:text-base">
                                 <span class="flex items-center"><i class="fas fa-bed mr-1.5 sm:mr-2 text-gradient"></i> <span data-lang-key="propRooms">2 Camere</span></span>
                                 <span class="flex items-center"><i class="fas fa-bath mr-1.5 sm:mr-2 text-gradient"></i> <span data-lang-key="propBaths">2 Bagni</span></span>
-                                <span class="flex items-center"><i class="fas fa-expand mr-1.5 sm:mr-2 text-gradient"></i> 180 m²</span>
+                                <span class="flex items-center"><i class="fas fa-expand mr-1.5 sm:mr-2 text-gradient"></i> 120 m²</span>
                             </div>
                             <div class="text-left sm:text-right w-full sm:w-auto">
-                                <p class="text-xs sm:text-sm text-gray-500 mb-1" data-lang-key="propPriceLabel1">Canone mensile</p>
-                                <span class="text-xl sm:text-2xl md:text-3xl font-bold">€ 8.000</span>
+                                <span class="text-xl sm:text-2xl md:text-3xl font-bold">€ 580.000</span>
                             </div>
                         </div>
                     </div>
@@ -827,8 +977,8 @@
                     <div class="property-card bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-lg sm:shadow-xl fade-left">
                         <div class="flex flex-col md:flex-row">
                             <div class="relative w-full md:w-2/5 h-56 sm:h-64 md:h-auto image-reveal">
-                                <img src="img_2.png"
-                                     alt="Villa moderna con piscina"
+                                <img src="WhatsApp Image 2025-06-15 at 18.52.21.jpeg"
+                                     alt="Villa a Malmantile"
                                      class="w-full h-full object-cover">
                                 <div class="absolute top-3 left-3 sm:top-4 sm:left-4 bg-emerald-600 text-white text-xs font-bold px-3 py-1 sm:px-4 sm:py-1.5 rounded-full" data-lang-key="propTag2">
                                     Vendita
@@ -838,15 +988,13 @@
                                 <div>
                                     <h3 class="text-lg sm:text-xl md:text-2xl font-display font-bold mb-2 sm:mb-3" data-lang-key="propTitle2">Villa Vista Mare</h3>
                                     <p class="text-gradient font-semibold mb-3 sm:mb-4 flex items-center text-sm sm:text-base">
-                                        <i class="fas fa-map-marker-alt mr-1.5 sm:mr-2"></i> Costa Smeralda
+                                        <i class="fas fa-map-marker-alt mr-1.5 sm:mr-2"></i> Lastra a Signa (FI)
                                     </p>
                                     <div class="flex flex-wrap items-center gap-3 sm:gap-4 text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base">
-                                        <span class="flex items-center"><i class="fas fa-bed mr-1 sm:mr-1.5"></i> 4</span>
-                                        <span class="flex items-center"><i class="fas fa-bath mr-1 sm:mr-1.5"></i> 5</span>
-                                        <span class="flex items-center"><i class="fas fa-expand mr-1 sm:mr-1.5"></i> 450 m²</span>
+                                        <span class="flex items-center"><i class="fas fa-expand mr-1 sm:mr-1.5"></i> 550 m²</span>
                                     </div>
                                 </div>
-                                <p class="text-xl sm:text-2xl font-bold">€ 3.500.000</p>
+                                <p class="text-xl sm:text-2xl font-bold">€ 1.250.000</p>
                             </div>
                         </div>
                     </div>
@@ -855,26 +1003,26 @@
                     <div class="property-card bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-lg sm:shadow-xl fade-left">
                         <div class="flex flex-col md:flex-row">
                             <div class="relative w-full md:w-2/5 h-56 sm:h-64 md:h-auto image-reveal">
-                                <img src="https://images.pexels.com/photos/1769356/pexels-photo-1769356.jpeg?auto=compress&cs=tinysrgb&w=600"
-                                     alt="Attico di lusso in città"
+                                <img src="WhatsApp Image 2025-06-15 at 18.59.23.jpeg"
+                                     alt="Nuove Costruzioni Lastra a Signa"
                                      class="w-full h-full object-cover">
                                 <div class="absolute top-3 left-3 sm:top-4 sm:left-4 gradient-gold text-white text-xs font-bold px-3 py-1 sm:px-4 sm:py-1.5 rounded-full" data-lang-key="propTag3">
-                                    Vendita Premium
+                                    Vendita
                                 </div>
                             </div>
                             <div class="p-5 sm:p-6 md:p-8 md:w-3/5 flex flex-col justify-between">
                                 <div>
                                     <h3 class="text-lg sm:text-xl md:text-2xl font-display font-bold mb-2 sm:mb-3" data-lang-key="propTitle3">Attico Panoramico</h3>
                                     <p class="text-gradient font-semibold mb-3 sm:mb-4 flex items-center text-sm sm:text-base">
-                                        <i class="fas fa-map-marker-alt mr-1.5 sm:mr-2"></i> Milano, CityLife
+                                        <i class="fas fa-map-marker-alt mr-1.5 sm:mr-2"></i> Lastra a Signa (FI)
                                     </p>
                                     <div class="flex flex-wrap items-center gap-3 sm:gap-4 text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base">
                                         <span class="flex items-center"><i class="fas fa-bed mr-1 sm:mr-1.5"></i> 3</span>
-                                        <span class="flex items-center"><i class="fas fa-bath mr-1 sm:mr-1.5"></i> 4</span>
-                                        <span class="flex items-center"><i class="fas fa-expand mr-1 sm:mr-1.5"></i> 320 m²</span>
+                                        <span class="flex items-center"><i class="fas fa-bath mr-1 sm:mr-1.5"></i> 2</span>
+                                        <span class="flex items-center"><i class="fas fa-expand mr-1 sm:mr-1.5"></i> 120 m²</span>
                                     </div>
                                 </div>
-                                <p class="text-xl sm:text-2xl font-bold">€ 4.200.000</p>
+                                <p class="text-xl sm:text-2xl font-bold">€ 430.000</p>
                             </div>
                         </div>
                     </div>
@@ -1126,6 +1274,66 @@
 
         <div class="border-t border-white/20 pt-6 sm:pt-8 text-center opacity-60 text-xs sm:text-sm">
             <p data-lang-key="footerCopyright">&copy; 2024 Dimore di Lusso. Tutti i diritti riservati. P.IVA 12345678901</p>
+            <!-- Link Impostazioni Cookie -->
+            <div class="flex items-center justify-center gap-x-4 gap-y-2 text-xs mt-2 flex-wrap">
+                <button onclick="showPrivacyPolicy()" class="text-yellow-300 hover:text-yellow-200 transition-colors opacity-80 hover:opacity-100" data-lang-key="footerPrivacyPolicy">
+                    Privacy Policy
+                </button>
+                <span class="text-white/30 hidden sm:inline">|</span>
+                <button onclick="showCookiePolicy()" class="text-yellow-300 hover:text-yellow-200 transition-colors opacity-80 hover:opacity-100" data-lang-key="footerCookiePolicy">
+                    Informativa Cookie
+                </button>
+                <span class="text-white/30 hidden sm:inline">|</span>
+                <button onclick="showPreferences()" class="text-yellow-300 hover:text-yellow-200 transition-colors opacity-80 hover:opacity-100" data-lang-key="footerCookieSettings">
+                    Impostazioni Cookie
+                </button>
+            </div>
+            <p class="tempora-credit" data-lang-key="footerCredit">
+                Designed & Developed by Tempora Innovation
+            </p>
+            <div id="privacyPolicyModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[60] hidden">
+                <div class="min-h-screen flex items-center justify-center p-4">
+                    <div class="modal bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+                        <div class="p-6 sm:p-8">
+                            <div class="flex items-center justify-between mb-6">
+                                <h2 class="text-2xl font-bold text-gray-800" data-lang-key="privacyPolicyTitle">Informativa sulla Privacy</h2>
+                                <button onclick="closePrivacyPolicy()" class="text-gray-400 hover:text-gray-600 text-2xl">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+
+                            <div class="space-y-6">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2" data-lang-key="privacyDataControllerTitle">Titolare del Trattamento dei Dati</h3>
+                                    <p class="text-gray-700 leading-relaxed" data-lang-key="privacyDataControllerText">
+                                        Æmporium Immobiliare, con sede in Viale Antonio Gramsci, 42, 50132 Firenze (FI), email: aemporiumimmobiliare@gmail.com.
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2" data-lang-key="privacyDataTypesTitle">Tipologie di Dati raccolti</h3>
+                                    <p class="text-gray-700 leading-relaxed" data-lang-key="privacyDataTypesText">
+                                        Fra i Dati Personali raccolti da questo sito, in modo autonomo o tramite terze parti, ci sono: Cookie, Dati di utilizzo, nome, cognome, numero di telefono e email. I dati forniti volontariamente dall'utente tramite i moduli di contatto sono utilizzati per rispondere alle richieste.
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2" data-lang-key="privacyPurposeTitle">Finalità del Trattamento</h3>
+                                    <p class="text-gray-700 leading-relaxed" data-lang-key="privacyPurposeText">
+                                        I Dati dell’Utente sono raccolti per consentire al Titolare di fornire i propri Servizi, così come per le seguenti finalità: Statistica, Contattare l'Utente e Visualizzazione di contenuti da piattaforme esterne.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="mt-8">
+                                <button onclick="closePrivacyPolicy()" class="gradient-gold text-white py-3 px-8 rounded-full font-semibold btn-luxury">
+                                    <span data-lang-key="cookieUnderstood">Ho Capito</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </footer>
@@ -1135,6 +1343,19 @@
     <i class="fas fa-arrow-up text-sm sm:text-base"></i>
 </button>
 <script>
+    function showPrivacyPolicy() {
+        const modal = document.getElementById('privacyPolicyModal');
+        if (modal) {
+            modal.classList.remove('hidden');
+        }
+    }
+
+    function closePrivacyPolicy() {
+        const modal = document.getElementById('privacyPolicyModal');
+        if (modal) {
+            modal.classList.add('hidden');
+        }
+    }
     // Translations object
     const translations = {
         it: {
@@ -1153,19 +1374,19 @@
             statsValue: "Contatti Internazionali",
             featuredTitle: "Immobili in Evidenza",
             featuredSubtitle: "Una selezione curata delle nostre migliori proposte, dove lusso e design si fondono in armonia perfetta.",
-            propTag1: "Affitto Esclusivo",
-            propTitle1: "Residenza d'Epoca",
-            propDesc1: "Eleganza senza tempo in un palazzo storico del XV secolo. Affreschi originali restaurati e comfort contemporanei si fondono in 180mq di pura raffinatezza.",
+            propTag1: "Vendita",
+            propTitle1: "Appartamento in vendita in Villa Demidoff",
+            propDesc1: "Eleganza storica a Novoli nella prestigiosa Villa Demidoff, dove storia e design contemporaneo si fondono in un’atmosfera raffinata.\n" +
+                "Appartamento al primo piano con ascensore, terrazza di 70 mq, doppi servizi en suite, bagno di cortesia e classe energetica A, con garage e cantina opzionali.",
             propRooms: "2 Camere",
             propBaths: "2 Bagni",
-            propPriceLabel1: "Canone mensile",
             propTag2: "Vendita",
-            propTitle2: "Villa Vista Mare",
+            propTitle2: "Villa a Malmantile",
             propTag3: "Vendita Premium",
-            propTitle3: "Attico Panoramico",
+            propTitle3: "Nuove Costruzioni",
             viewAllProperties: "Scopri tutte le proprietà",
-            aboutTitle1: "Esperti in Proprietà",
-            aboutTitle2: "di Prestigio",
+            aboutTitle1: "Esperti in vendite",
+            aboutTitle2: "Immobiliari",
             aboutDesc1: "Æmporium Immobiliare è un punto di riferimento nel settore immobiliare, specializzata nella compravendita e locazione di immobili residenziali, commerciali e turistici. Con anni di esperienza e una profonda conoscenza del mercato locale, offriamo un servizio su misura, professionale e trasparente, accompagnando i nostri clienti in ogni fase della trattativa.\n" ,
 
             aboutDesc2: "Che tu stia cercando la casa dei tuoi sogni, un investimento sicuro o il miglior inquilino per il tuo immobile, il nostro team è pronto ad ascoltarti, consigliarti e supportarti con competenza e passione.",
@@ -1187,7 +1408,7 @@
             testimonial1: "\"Un servizio impeccabile. Hanno trasformato la ricerca della casa in un'esperienza piacevole e senza stress. Professionalità e dedizione ai massimi livelli.\"",
             testimonial1Author: "Ingegnere, Bagno a Ripoli",
             testimonial2: "\"La vendita della nostra proprietà storica richiedeva sensibilità e competenza. Æmporium Immobiliare ha superato ogni aspettativa con risultati straordinari.\"",
-            testimonial2Author: "Firenze",
+            testimonial2Author: "dott.ssa Firenze",
             ctaTitle: "Inizia il tuo viaggio nel mondo Immobiliare",
             ctaSubtitle: "Che tu stia cercando la residenza dei tuoi sogni o desideri valorizzare la tua proprietà, siamo qui per guidarti verso il successo.",
             ctaBtn1: "Richiedi Valutazione Gratuita",
@@ -1198,70 +1419,97 @@
             footerHours1: "Lun - Ven: 9:00 - 19:00",
             footerHours2: "Sabato: 9:00 - 13:00",
             footerAppointment: "Prenota Appuntamento",
-            footerCopyright: "© 2025 Æmporium Immobiliare. Tutti i diritti riservati. P.IVA 06143640487"
+            footerCopyright: "© 2025 Æmporium Immobiliare. Tutti i diritti riservati. P.IVA 06143640487",
+            footerPrivacyPolicy: "Privacy Policy",
+            privacyPolicyTitle: "Informativa sulla Privacy",
+            privacyDataControllerTitle: "Titolare del Trattamento dei Dati",
+            privacyDataControllerText: "Æmporium Immobiliare, con sede in Viale Antonio Gramsci, 42, 50132 Firenze (FI), email: aemporiumimmobiliare@gmail.com.",
+            privacyDataTypesTitle: "Tipologie di Dati raccolti",
+            privacyDataTypesText: "Fra i Dati Personali raccolti da questo sito, in modo autonomo o tramite terze parti, ci sono: Cookie, Dati di utilizzo, nome, cognome, numero di telefono e email. I dati forniti volontariamente dall'utente tramite i moduli di contatto sono utilizzati per rispondere alle richieste.",
+            privacyPurposeTitle: "Finalità del Trattamento",
+            privacyPurposeText: "I Dati dell’Utente sono raccolti per consentire al Titolare di fornire i propri Servizi, così come per le seguenti finalità: Statistica, Contattare l'Utente e Visualizzazione di contenuti da piattaforme esterne.",
         },
         en: {
-            loaderTitle: "Luxury Homes",
+            loaderTitle: "Luxury Residences",
             navHome: "Home",
             navProperties: "Properties",
             navAbout: "About Us",
             navServices: "Services",
             navContact: "Contact Us",
-            heroSubtitle: "Discover our exclusive residences in the heart of Italy's most beautiful art cities.",
+            heroSubtitle: "... WHERE your needs find HOME",
             heroBtnExplore: "Explore Properties",
             heroBtnConsult: "Request Consultation",
-            statsProperties: "Exclusive Properties",
+            statsProperties: "Monthly Contacts",
             statsExperience: "Years of Experience",
             statsSatisfaction: "% Satisfied Clients",
-            statsValue: "Transaction Value",
+            statsValue: "International Contacts",
             featuredTitle: "Featured Properties",
-            featuredSubtitle: "A curated selection of our best proposals, where luxury and design merge in perfect harmony.",
-            propTag1: "Exclusive Rent",
-            propTitle1: "Historic Residence",
-            propDesc1: "Timeless elegance in a historic 15th-century palace. Restored original frescoes and contemporary comforts blend in 180sqm of pure refinement.",
+            featuredSubtitle: "A curated selection of our best offerings, where luxury and design blend in perfect harmony.",
+            propTag1: "For Sale",
+            propTitle1: "Apartment for Sale in Villa Demidoff",
+            propDesc1:
+                "Historic elegance in Novoli’s prestigious Villa Demidoff, where history and contemporary design blend in a refined atmosphere.\n" +
+                "First-floor apartment with elevator, 70 sqm terrace, 2 en-suite bathrooms, guest bathroom and energy class A; garage and cellar optional.",
             propRooms: "2 Bedrooms",
             propBaths: "2 Bathrooms",
-            propPriceLabel1: "Monthly rent",
             propTag2: "For Sale",
-            propTitle2: "Sea View Villa",
+            propTitle2: "Villa in Malmantile",
             propTag3: "Premium Sale",
-            propTitle3: "Panoramic Penthouse",
+            propTitle3: "New Construction",
             viewAllProperties: "Discover all properties",
-            aboutTitle1: "Experts in Prestige",
-            aboutTitle2: "Properties",
-            aboutDesc1: "Dimore di Lusso represents excellence in the luxury real estate market. With over 15 years of experience, our team of specialized consultants offers an exclusive and personalized service.",
-            aboutDesc2: "Our international network and deep market knowledge allow us to carry out successful transactions while maintaining the utmost confidentiality.",
+            aboutTitle1: "Experts in Sales",
+            aboutTitle2: "Real Estate",
+            aboutDesc1:
+                "Æmporium Immobiliare is a benchmark in the real estate sector, specializing in the purchase and rental of residential, commercial and tourist properties. With years of experience and in-depth knowledge of the local market, we offer a tailored, professional and transparent service, guiding our clients through every phase of the negotiation.\n",
+            aboutDesc2:
+                "Whether you’re looking for your dream home, a secure investment or the best tenant for your property, our team is ready to listen, advise and support you with expertise and passion.",
             aboutCardTitle1: "Certified Excellence",
             aboutCardDesc1: "Leader in the luxury real estate sector",
             aboutCardTitle2: "Global Network",
             aboutCardDesc2: "Clients in over 50 countries",
             aboutBtn: "Book a Consultation",
             servicesTitle: "Exclusive Services",
-            servicesSubtitle: "A tailored approach for every need, with premium services that set new standards in luxury real estate.",
-            service1Title: "Premium Valuations",
-            service1Desc: "Advanced market analysis with AI technologies for precise and strategic valuations of your assets.",
+            servicesSubtitle:
+                "A tailored approach for every need, with services that set new standards in the real estate world.",
+            service1Title: "Property Valuations",
+            service1Desc:
+                "Advanced market analysis for precise and strategic valuations of your assets.",
             service2Title: "360° Consulting",
-            service2Desc: "A dedicated team of legal and tax experts to manage every aspect of the transaction with maximum security.",
-            service3Title: "Elite Marketing",
-            service3Desc: "Innovative digital strategies and exclusive networks to maximize visibility in the global luxury market.",
+            service2Desc:
+                "Dedicated team of legal and tax experts to manage every aspect of the transaction with maximum security.",
+            service3Title: "Property Promotion and Visibility",
+            service3Desc:
+                "Innovative digital strategies and exclusive networks to maximize visibility in the Italian market.",
             testimonialsTitle: "The Voice of Our Clients",
-            testimonialsSubtitle: "Success stories that testify to our commitment to excellence.",
-            testimonial1: "\"An impeccable service. They turned the house search into a pleasant and stress-free experience. Professionalism and dedication at the highest levels.\"",
-            testimonial1Author: "Entrepreneur, Milan",
-            testimonial2: "\"Selling our historic property required sensitivity and expertise. Dimore di Lusso exceeded all expectations with extraordinary results.\"",
-            testimonial2Author: "Lake Como",
-            ctaTitle: "Start Your Journey in Luxury",
-            ctaSubtitle: "Whether you're looking for your dream residence or want to enhance your property's value, we're here to guide you to success.",
+            testimonialsSubtitle:
+                "Success stories that testify to our commitment to excellence.",
+            testimonial1:
+                "\"An impeccable service. They turned the house search into a pleasant and stress-free experience. Professionalism and dedication at the highest levels.\"",
+            testimonial1Author: "Engineer, Bagno a Ripoli",
+            testimonial2:
+                "\"Selling our historic property required sensitivity and expertise. Æmporium Immobiliare exceeded every expectation with extraordinary results.\"",
+            testimonial2Author: "Dr., Florence",
+            ctaTitle: "Start Your Journey in the Real Estate World",
+            ctaSubtitle:
+                "Whether you’re looking for your dream residence or want to enhance your property’s value, we’re here to guide you to success.",
             ctaBtn1: "Request Free Valuation",
             ctaBtn2: "Call Now",
-            footerSlogan: "Your gateway to the most exclusive properties in Italy. Where luxury meets excellence.",
+            footerSlogan: "Excellence is not a detail, it’s our rule.",
             footerContactsTitle: "Direct Contacts",
-            footerHoursTitle: "Opening Hours",
+            footerHoursTitle: "Hours",
             footerHours1: "Mon - Fri: 9:00 AM - 7:00 PM",
-            footerHours2: "Saturday: 10:00 AM - 5:00 PM",
-            footerHours3: "Sunday: By appointment",
+            footerHours2: "Saturday: 9:00 AM - 1:00 PM",
             footerAppointment: "Book Appointment",
-            footerCopyright: "© 2024 Dimore di Lusso. All rights reserved. VAT ID 12345678901"
+            footerCopyright:
+                "© 2025 Æmporium Immobiliare. All rights reserved. VAT ID 06143640487",
+            footerPrivacyPolicy: "Privacy Policy",
+            privacyPolicyTitle: "Privacy Policy",
+            privacyDataControllerTitle: "Data Controller",
+            privacyDataControllerText: "Æmporium Immobiliare, located at Viale Antonio Gramsci, 42, 50132 Florence (FI), email: aemporiumimmobiliare@gmail.com.",
+            privacyDataTypesTitle: "Types of Data collected",
+            privacyDataTypesText: "Among the types of Personal Data that this website collects, by itself or through third parties, there are: Cookies, Usage Data, first name, last name, phone number, and email. Data voluntarily provided by the user through contact forms is used to respond to requests.",
+            privacyPurposeTitle: "Purpose of Processing",
+            privacyPurposeText: "The Data concerning the User is collected to allow the Owner to provide its Services, as well as for the following purposes: Analytics, Contacting the User, and Displaying content from external platforms.",
         }
     };
 
@@ -1287,7 +1535,7 @@
     };
 
     // Function to set the language
-    const setLanguage = (lang) => {
+    let setLanguage = (lang) => {
         document.documentElement.lang = lang;
         safeLocalStorage.setItem('language', lang);
 
@@ -1370,16 +1618,17 @@
 
         function updateHeaderColors() {
             const isMenuOpen = !mobileMenu.classList.contains('hidden');
+            // Se il menu è aperto, non cambiare i colori dell'header
+            if (isMenuOpen) return;
+
             if (window.pageYOffset > 100) {
                 header.classList.add('glass', 'shadow-lg');
                 desktopNavLinks.forEach(link => {
                     link.classList.remove('text-white', 'hero-text-shadow');
                     link.classList.add('text-gray-800');
                 });
-                if (!isMenuOpen) {
-                    mobileMenuButton.classList.remove('text-white');
-                    mobileMenuButton.classList.add('text-gray-800');
-                }
+                mobileMenuButton.classList.remove('text-white');
+                mobileMenuButton.classList.add('text-gray-800');
                 langSwitcherText.forEach(el => {
                     el.classList.remove('text-white', 'hero-text-shadow');
                     el.classList.add('text-gray-800');
@@ -1390,10 +1639,8 @@
                     link.classList.remove('text-gray-800');
                     link.classList.add('text-white', 'hero-text-shadow');
                 });
-                if (!isMenuOpen) {
-                    mobileMenuButton.classList.remove('text-gray-800');
-                    mobileMenuButton.classList.add('text-white');
-                }
+                mobileMenuButton.classList.remove('text-gray-800');
+                mobileMenuButton.classList.add('text-white');
                 langSwitcherText.forEach(el => {
                     el.classList.remove('text-gray-800');
                     el.classList.add('text-white', 'hero-text-shadow');
@@ -1401,38 +1648,40 @@
             }
         }
 
-        function toggleMenu() {
-            const isHidden = mobileMenu.classList.contains('hidden');
-
-            if (isHidden) {
-                // APRI MENU
-                document.body.classList.add('no-scroll');
-                mobileMenu.classList.remove('hidden');
-                mobileMenu.classList.add('active');
-
-                openIcon.classList.add('opacity-0', 'scale-75');
-                closeIcon.classList.remove('opacity-0', 'scale-75');
-                mobileMenuButton.classList.remove('text-gray-800');
-                mobileMenuButton.classList.add('text-white'); // Forza icona bianca su menu aperto
-            } else {
-                // CHIUDI MENU
-                document.body.classList.remove('no-scroll');
-                mobileMenu.classList.add('hidden');
-                mobileMenu.classList.remove('active');
-
-                openIcon.classList.remove('opacity-0', 'scale-75');
-                closeIcon.classList.add('opacity-0', 'scale-75');
-                updateHeaderColors(); // Ripristina il colore corretto dell'icona
-            }
+// Funzioni separate per aprire e chiudere il menu
+        function openMenu() {
+            mobileMenu.classList.remove('hidden');
+            mobileMenu.classList.add('active');
+            document.body.classList.add('no-scroll');
         }
 
+        function closeMenu() {
+            mobileMenu.classList.add('hidden');
+            mobileMenu.classList.remove('active');
+            document.body.classList.remove('no-scroll');
+            // Aggiorna il colore del pulsante hamburger quando il menu si chiude
+            updateHeaderColors();
+        }
+
+// Gestione degli eventi
+        const mobileMenuCloseButton = document.getElementById('mobile-menu-close-button');
+
+        if (mobileMenuButton) {
+            mobileMenuButton.addEventListener('click', openMenu);
+        }
+        if (mobileMenuCloseButton) {
+            mobileMenuCloseButton.addEventListener('click', closeMenu);
+        }
+
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', closeMenu);
+        });
+
         window.addEventListener('scroll', () => {
-            // NUOVA LOGICA: Chiude il menu se aperto durante lo scroll
             const isMenuOpen = !mobileMenu.classList.contains('hidden');
             if (isMenuOpen) {
-                toggleMenu();
+                closeMenu();
             }
-
             updateHeaderColors();
             if (scrollTopBtn) {
                 if (window.pageYOffset > 300) {
@@ -1441,14 +1690,6 @@
                     scrollTopBtn.classList.add('opacity-0', 'invisible');
                 }
             }
-        });
-
-        if (mobileMenuButton) {
-            mobileMenuButton.addEventListener('click', toggleMenu);
-        }
-
-        mobileMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', toggleMenu);
         });
 
         // ---- PARALLAX EFFECT ----
@@ -1533,5 +1774,588 @@
     });
 </script>
 
+<!-- Cookie Banner -->
+<div id="cookieBanner" class="cookie-banner fixed bottom-0 left-0 right-0 z-50 p-4 sm:p-6" style="display: none;">
+    <div class="max-w-6xl mx-auto">
+        <div class="glass rounded-2xl shadow-2xl p-6 sm:p-8">
+            <div class="flex flex-col lg:flex-row items-start lg:items-center gap-6">
+                <!-- Icon and Content -->
+                <div class="flex-1">
+                    <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0">
+                            <div class="w-12 h-12 rounded-full gradient-gold flex items-center justify-center">
+                                <i class="fas fa-cookie-bite text-white text-xl"></i>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-lg sm:text-xl font-bold text-gray-800 mb-2" data-lang-key="cookieTitle">
+                                Rispettiamo la tua Privacy
+                            </h3>
+                            <p class="text-gray-600 text-sm sm:text-base leading-relaxed" data-lang-key="cookieText">
+                                Utilizziamo cookie tecnici necessari per il funzionamento del sito e cookie di terze parti per i collegamenti ai social media.
+                                <a href="#" onclick="showCookiePolicy()" class="text-gradient font-medium hover:underline" data-lang-key="cookieMoreInfo">
+                                    Maggiori informazioni
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+                    <button onclick="showPreferences()" class="px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-full transition-colors border border-gray-300 text-sm sm:text-base whitespace-nowrap">
+                        <i class="fas fa-cog mr-2"></i>
+                        <span data-lang-key="cookieCustomize">Personalizza</span>
+                    </button>
+                    <button onclick="acceptAllCookies()" class="gradient-gold text-white px-8 py-3 rounded-full font-semibold btn-luxury text-sm sm:text-base whitespace-nowrap">
+                        <i class="fas fa-check mr-2"></i>
+                        <span data-lang-key="cookieAcceptAll">Accetta Tutto</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Cookie Preferences Modal -->
+<div id="cookieModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[60] hidden">
+    <div class="min-h-screen flex items-center justify-center p-4">
+        <div class="modal glass rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6 sm:p-8">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800" data-lang-key="cookiePrefsTitle">Preferenze Cookie</h2>
+                    <button onclick="closePreferences()" class="text-gray-400 hover:text-gray-600 text-2xl">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <div class="space-y-6">
+                    <p class="text-gray-600 text-sm sm:text-base leading-relaxed" data-lang-key="cookiePrefsDesc">
+                        Puoi scegliere quali categorie di cookie accettare. I cookie tecnici sono necessari per il funzionamento del sito.
+                    </p>
+
+                    <!-- Cookie Categories -->
+                    <div class="space-y-4">
+                        <!-- Technical Cookies -->
+                        <div class="p-4 border border-gray-200 rounded-xl">
+                            <div class="flex items-center justify-between mb-3">
+                                <div>
+                                    <h3 class="font-semibold text-gray-800" data-lang-key="cookieTechnicalTitle">Cookie Tecnici</h3>
+                                    <p class="text-sm text-gray-600" data-lang-key="cookieTechnicalDesc">Necessari per il funzionamento del sito</p>
+                                </div>
+                                <div class="toggle-switch active" data-required="true">
+                                    <span class="sr-only">Cookie tecnici sempre attivi</span>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-500" data-lang-key="cookieTechnicalDetails">
+                                Questi cookie sono essenziali per il corretto funzionamento del sito web e non possono essere disabilitati.
+                            </p>
+                        </div>
+
+                        <!-- Third Party Cookies -->
+                        <div class="p-4 border border-gray-200 rounded-xl">
+                            <div class="flex items-center justify-between mb-3">
+                                <div>
+                                    <h3 class="font-semibold text-gray-800" data-lang-key="cookieThirdPartyTitle">Cookie di Terze Parti</h3>
+                                    <p class="text-sm text-gray-600" data-lang-key="cookieThirdPartyDesc">Social media e servizi esterni</p>
+                                </div>
+                                <div class="toggle-switch" id="thirdPartyToggle" onclick="toggleCookie('thirdParty')">
+                                    <span class="sr-only">Attiva/disattiva cookie di terze parti</span>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-500" data-lang-key="cookieThirdPartyDetails">
+                                Cookie utilizzati dai social media (Instagram, Facebook, LinkedIn, YouTube) e da servizi esterni come Google Fonts.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-3 mt-8">
+                    <button onclick="acceptSelected()" class="flex-1 gradient-gold text-white py-3 px-6 rounded-full font-semibold btn-luxury">
+                        <span data-lang-key="cookieSavePrefs">Salva Preferenze</span>
+                    </button>
+                    <button onclick="closePreferences()" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 px-6 rounded-full font-medium transition-colors">
+                        <span data-lang-key="cookieCancel">Annulla</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Cookie Policy Modal -->
+<div id="policyModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[60] hidden">
+    <div class="min-h-screen flex items-center justify-center p-4">
+        <div class="modal glass rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6 sm:p-8">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800" data-lang-key="cookiePolicyTitle">Informativa Cookie</h2>
+                    <button onclick="closeCookiePolicy()" class="text-gray-400 hover:text-gray-600 text-2xl">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <div class="prose prose-sm sm:prose-base max-w-none text-gray-600">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-3" data-lang-key="cookieWhatAre">Cosa sono i cookie</h3>
+                    <p class="mb-4" data-lang-key="cookieYourRightsDesc">
+                        Puoi sempre modificare le tue preferenze sui cookie o revocare il consenso attraverso le impostazioni del tuo browser.
+                    </p>
+                </div>
+
+                <div class="mt-8">
+                    <button onclick="closeCookiePolicy()" class="gradient-gold text-white py-3 px-8 rounded-full font-semibold btn-luxury">
+                        <span data-lang-key="cookieUnderstood">Ho Capito</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // Cookie consent state
+    let cookieConsent = {
+        technical: true, // Always required
+        thirdParty: false
+    };
+
+    // Safe localStorage access (compatibile con il tuo codice esistente)
+    const safeCookieStorage = {
+        getItem: (key) => {
+            try {
+                return localStorage.getItem(key);
+            } catch (e) {
+                return null;
+            }
+        },
+        setItem: (key, value) => {
+            try {
+                localStorage.setItem(key, value);
+            } catch (e) {
+                console.log('Using fallback storage for cookies');
+            }
+        }
+    };
+
+    // Aggiungi le traduzioni per i cookie al tuo oggetto translations esistente
+    const cookieTranslations = {
+        it: {
+            cookieTitle: "Rispettiamo la tua Privacy",
+            cookieText: "Utilizziamo cookie tecnici necessari per il funzionamento del sito e cookie di terze parti per i collegamenti ai social media.",
+            cookieMoreInfo: "Maggiori informazioni",
+            cookieCustomize: "Personalizza",
+            cookieAcceptAll: "Accetta Tutto",
+            cookiePrefsTitle: "Preferenze Cookie",
+            cookiePrefsDesc: "Puoi scegliere quali categorie di cookie accettare. I cookie tecnici sono necessari per il funzionamento del sito.",
+            cookieTechnicalTitle: "Cookie Tecnici",
+            cookieTechnicalDesc: "Necessari per il funzionamento del sito",
+            cookieTechnicalDetails: "Questi cookie sono essenziali per il corretto funzionamento del sito web e non possono essere disabilitati.",
+            cookieThirdPartyTitle: "Cookie di Terze Parti",
+            cookieThirdPartyDesc: "Social media e servizi esterni",
+            cookieThirdPartyDetails: "Cookie utilizzati dai social media (Instagram, Facebook, LinkedIn, YouTube) e da servizi esterni come Google Fonts.",
+            cookieSavePrefs: "Salva Preferenze",
+            cookieCancel: "Annulla",
+            cookiePolicyTitle: "Informativa Cookie",
+            cookieWhatAre: "Cosa sono i cookie",
+            cookieWhatAreDesc: "I cookie sono piccoli file di testo che vengono memorizzati sul tuo dispositivo quando visiti un sito web. Ci aiutano a fornire una migliore esperienza di navigazione.",
+            cookieWeUse: "Cookie che utilizziamo",
+            cookieTechnicalPolicy: "Necessari per il funzionamento del sito, incluse le preferenze di lingua e il funzionamento del menu di navigazione.",
+            cookieThirdPartyPolicy: "Quando clicchi sui link dei social media (Instagram, Facebook, LinkedIn, YouTube), questi servizi potrebbero impostare i loro cookie. Utilizziamo anche Google Fonts per i caratteri del sito.",
+            cookieYourRights: "I tuoi diritti",
+            cookieYourRightsDesc: "Puoi sempre modificare le tue preferenze sui cookie o revocare il consenso attraverso le impostazioni del tuo browser.",
+            cookieUnderstood: "Ho Capito"
+        },
+        en: {
+            cookieTitle: "We Respect Your Privacy",
+            cookieText: "We use technical cookies necessary for the site's operation and third-party cookies for social media links.",
+            cookieMoreInfo: "More information",
+            cookieCustomize: "Customize",
+            cookieAcceptAll: "Accept All",
+            cookiePrefsTitle: "Cookie Preferences",
+            cookiePrefsDesc: "You can choose which categories of cookies to accept. Technical cookies are necessary for the site's operation.",
+            cookieTechnicalTitle: "Technical Cookies",
+            cookieTechnicalDesc: "Necessary for site operation",
+            cookieTechnicalDetails: "These cookies are essential for the proper functioning of the website and cannot be disabled.",
+            cookieThirdPartyTitle: "Third Party Cookies",
+            cookieThirdPartyDesc: "Social media and external services",
+            cookieThirdPartyDetails: "Cookies used by social media (Instagram, Facebook, LinkedIn, YouTube) and external services like Google Fonts.",
+            cookieSavePrefs: "Save Preferences",
+            cookieCancel: "Cancel",
+            cookiePolicyTitle: "Cookie Policy",
+            cookieWhatAre: "What are cookies",
+            cookieWhatAreDesc: "Cookies are small text files that are stored on your device when you visit a website. They help us provide a better browsing experience.",
+            cookieWeUse: "Cookies we use",
+            cookieTechnicalPolicy: "Necessary for the site's operation, including language preferences and navigation menu functionality.",
+            cookieThirdPartyPolicy: "When you click on social media links (Instagram, Facebook, LinkedIn, YouTube), these services may set their cookies. We also use Google Fonts for site fonts.",
+            cookieYourRights: "Your rights",
+            cookieYourRightsDesc: "You can always modify your cookie preferences or revoke consent through your browser settings.",
+            cookieUnderstood: "I Understand"
+        }
+    };
+
+    // Estendi il tuo oggetto translations esistente
+    Object.keys(cookieTranslations).forEach(lang => {
+        if (translations[lang]) {
+            Object.assign(translations[lang], cookieTranslations[lang]);
+        }
+    });
+
+    // Cookie Banner Functions
+    function checkCookieConsent() {
+        const consent = safeCookieStorage.getItem('cookieConsent');
+        if (!consent) {
+            // Show banner after page load
+            setTimeout(() => {
+                showCookieBanner();
+            }, 2000);
+        } else {
+            cookieConsent = JSON.parse(consent);
+            applyCookieSettings();
+        }
+    }
+
+    function showCookieBanner() {
+        const banner = document.getElementById('cookieBanner');
+        if (banner) {
+            banner.style.display = 'block';
+        }
+    }
+
+    function hideCookieBanner() {
+        const banner = document.getElementById('cookieBanner');
+        if (banner) {
+            banner.classList.add('fade-out');
+            setTimeout(() => {
+                banner.style.display = 'none';
+                banner.classList.remove('fade-out');
+            }, 500);
+        }
+    }
+
+    function acceptAllCookies() {
+        cookieConsent = {
+            technical: true,
+            thirdParty: true
+        };
+        saveCookieConsent();
+        applyCookieSettings();
+        hideCookieBanner();
+    }
+
+    function showPreferences() {
+        const modal = document.getElementById('cookieModal');
+        if (modal) {
+            modal.classList.remove('hidden');
+            updateToggleStates();
+        }
+    }
+
+    function closePreferences() {
+        const modal = document.getElementById('cookieModal');
+        if (modal) {
+            modal.classList.add('hidden');
+        }
+    }
+
+    function showCookiePolicy() {
+        const modal = document.getElementById('policyModal');
+        if (modal) {
+            modal.classList.remove('hidden');
+        }
+    }
+
+    function closeCookiePolicy() {
+        const modal = document.getElementById('policyModal');
+        if (modal) {
+            modal.classList.add('hidden');
+        }
+    }
+
+    function toggleCookie(type) {
+        const toggle = document.getElementById(type + 'Toggle');
+        if (toggle && toggle.dataset.required !== 'true') {
+            cookieConsent[type] = !cookieConsent[type];
+            updateToggleStates();
+        }
+    }
+
+    function updateToggleStates() {
+        const thirdPartyToggle = document.getElementById('thirdPartyToggle');
+        if (thirdPartyToggle) {
+            if (cookieConsent.thirdParty) {
+                thirdPartyToggle.classList.add('active');
+            } else {
+                thirdPartyToggle.classList.remove('active');
+            }
+        }
+    }
+
+    function acceptSelected() {
+        saveCookieConsent();
+        applyCookieSettings();
+        closePreferences();
+        hideCookieBanner();
+    }
+
+    function saveCookieConsent() {
+        safeCookieStorage.setItem('cookieConsent', JSON.stringify(cookieConsent));
+    }
+
+
+    function applyCookieSettings() {
+        if (!cookieConsent.thirdParty) {
+            console.log('Blocking third-party cookies and services...');
+
+            // 1. BLOCCA I LINK AI SOCIAL MEDIA
+            blockSocialMediaLinks();
+
+            // 2. SOSTITUISCI GOOGLE FONTS CON FONTS LOCALI (opzionale)
+            // blockGoogleFonts();
+
+            // 3. BLOCCA FONT AWESOME ESTERNO (opzionale)
+            // blockFontAwesome();
+
+            // 4. MOSTRA MESSAGGIO INFORMATIVO SUI SOCIAL
+            showSocialBlockedMessage();
+
+        } else {
+            console.log('Third-party cookies enabled');
+
+            // RIPRISTINA I LINK SOCIAL SE ERANO STATI BLOCCATI
+            restoreSocialMediaLinks();
+            removeSocialBlockedMessage();
+        }
+    }
+
+    // FUNZIONE PER BLOCCARE I LINK AI SOCIAL MEDIA
+    function blockSocialMediaLinks() {
+        const socialLinks = document.querySelectorAll('footer a[href*="facebook"], footer a[href*="instagram"], footer a[href*="linkedin"], footer a[href*="youtube"]');
+
+        socialLinks.forEach(link => {
+            // Salva l'URL originale
+            if (!link.dataset.originalHref) {
+                link.dataset.originalHref = link.href;
+            }
+
+            // Rimuovi l'href per disabilitare il link
+            link.removeAttribute('href');
+
+            // Aggiungi stile per link disabilitato
+            link.style.opacity = '0.5';
+            link.style.cursor = 'not-allowed';
+            link.title = getCurrentLanguage() === 'it' ?
+                'Link disabilitato - Cookie di terze parti non accettati' :
+                'Link disabled - Third-party cookies not accepted';
+
+            // Aggiungi event listener per mostrare messaggio
+            link.addEventListener('click', handleBlockedSocialClick);
+        });
+    }
+
+    // FUNZIONE PER RIPRISTINARE I LINK AI SOCIAL MEDIA
+    function restoreSocialMediaLinks() {
+        const socialLinks = document.querySelectorAll('footer a[data-original-href]');
+
+        socialLinks.forEach(link => {
+            // Ripristina l'href originale
+            link.href = link.dataset.originalHref;
+
+            // Rimuovi gli stili di link disabilitato
+            link.style.opacity = '';
+            link.style.cursor = '';
+            link.title = '';
+
+            // Rimuovi l'event listener del blocco
+            link.removeEventListener('click', handleBlockedSocialClick);
+        });
+    }
+
+    // GESTISCE IL CLICK SU LINK SOCIAL BLOCCATI
+    function handleBlockedSocialClick(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        // Mostra un messaggio informativo
+        showCookieConsentDialog();
+    }
+
+    // MOSTRA UN DIALOG PER ABILITARE I COOKIE
+    function showCookieConsentDialog() {
+        const message = getCurrentLanguage() === 'it' ?
+            'Per accedere ai nostri social media, devi accettare i cookie di terze parti. Vuoi modificare le tue preferenze?' :
+            'To access our social media, you need to accept third-party cookies. Do you want to modify your preferences?';
+
+        const confirmText = getCurrentLanguage() === 'it' ? 'Modifica Preferenze' : 'Modify Preferences';
+        const cancelText = getCurrentLanguage() === 'it' ? 'Annulla' : 'Cancel';
+
+        if (confirm(message + '\n\n' + confirmText + ' / ' + cancelText)) {
+            showPreferences();
+        }
+    }
+
+    // FUNZIONE PER OTTENERE LA LINGUA CORRENTE
+    function getCurrentLanguage() {
+        return document.documentElement.lang || 'it';
+    }
+
+    // MOSTRA MESSAGGIO INFORMATIVO SOTTO I SOCIAL ICON
+    function showSocialBlockedMessage() {
+        // Rimuovi messaggio esistente se presente
+        removeSocialBlockedMessage();
+
+        const socialContainer = document.querySelector('footer .flex.space-x-3');
+        if (socialContainer) {
+            const message = document.createElement('p');
+            message.id = 'social-blocked-message';
+            message.className = 'text-xs text-yellow-300 mt-3 opacity-80';
+            message.innerHTML = getCurrentLanguage() === 'it' ?
+                '<i class="fas fa-info-circle mr-2"></i>Link social disabilitati - <button onclick="showPreferences()" class="underline hover:text-yellow-200">Modifica preferenze cookie</button>' :
+                '<i class="fas fa-info-circle mr-2"></i>Social links disabled - <button onclick="showPreferences()" class="underline hover:text-yellow-200">Modify cookie preferences</button>';
+
+            socialContainer.parentNode.insertBefore(message, socialContainer.nextSibling);
+        }
+    }
+
+    // RIMUOVE IL MESSAGGIO INFORMATIVO
+    function removeSocialBlockedMessage() {
+        const message = document.getElementById('social-blocked-message');
+        if (message) {
+            message.remove();
+        }
+    }
+
+    // OPZIONALE: BLOCCA GOOGLE FONTS (se vuoi essere molto rigoroso)
+    function blockGoogleFonts() {
+        const googleFontLinks = document.querySelectorAll('link[href*="fonts.googleapis.com"], link[href*="fonts.gstatic.com"]');
+        googleFontLinks.forEach(link => {
+            link.disabled = true;
+            console.log('Google Fonts blocked');
+        });
+    }
+
+    // OPZIONALE: BLOCCA FONT AWESOME ESTERNO
+    function blockFontAwesome() {
+        const fontAwesomeLinks = document.querySelectorAll('link[href*="font-awesome"], link[href*="fontawesome"]');
+        fontAwesomeLinks.forEach(link => {
+            link.disabled = true;
+            console.log('External Font Awesome blocked');
+        });
+    }
+
+    // MIGLIORA LA FUNZIONE DI SALVATAGGIO PER RIAPPLICARE LE IMPOSTAZIONI
+    const originalSaveCookieConsent = saveCookieConsent;
+    saveCookieConsent = function() {
+        originalSaveCookieConsent();
+        // Riapplica immediatamente le impostazioni
+        applyCookieSettings();
+    };
+
+    // AGGIUNGI ANCHE QUESTA FUNZIONE PER GESTIRE IL CAMBIO DI LINGUA
+    function updateCookieLanguage() {
+        // Aggiorna i messaggi se i social sono bloccati
+        const blockedMessage = document.getElementById('social-blocked-message');
+        if (blockedMessage) {
+            showSocialBlockedMessage();
+        }
+
+        // Aggiorna i tooltip dei link disabilitati
+        const disabledLinks = document.querySelectorAll('footer a[style*="not-allowed"]');
+        disabledLinks.forEach(link => {
+            link.title = getCurrentLanguage() === 'it' ?
+                'Link disabilitato - Cookie di terze parti non accettati' :
+                'Link disabled - Third-party cookies not accepted';
+        });
+    }
+
+    // Modifica la tua funzione setLanguage esistente per includere le traduzioni cookie
+    const originalSetLanguage = setLanguage;
+    setLanguage = (lang) => {
+        originalSetLanguage(lang);
+        // Aggiorna anche le traduzioni del cookie banner se visibile
+        const banner = document.getElementById('cookieBanner');
+        if (banner && banner.style.display !== 'none') {
+            // Le traduzioni verranno aggiornate automaticamente dal sistema esistente
+        }
+    };
+
+    // VERSIONE AVANZATA: SOSTITUISCE COMPLETAMENTE I SOCIAL LINKS CON PLACEHOLDER
+    function createSocialPlaceholders() {
+        const socialLinks = document.querySelectorAll('footer a[href*="facebook"], footer a[href*="instagram"], footer a[href*="linkedin"], footer a[href*="youtube"]');
+
+        socialLinks.forEach(link => {
+            // Salva il link originale
+            if (!link.dataset.originalHref) {
+                link.dataset.originalHref = link.href;
+                link.dataset.originalClass = link.className;
+            }
+
+            // Trasforma in placeholder
+            link.removeAttribute('href');
+            link.className = link.dataset.originalClass + ' opacity-50 cursor-not-allowed';
+
+            // Aggiungi overlay con icona lock
+            if (!link.querySelector('.cookie-lock')) {
+                const lockIcon = document.createElement('div');
+                lockIcon.className = 'cookie-lock absolute inset-0 flex items-center justify-center bg-black/50 rounded-full';
+                lockIcon.innerHTML = '<i class="fas fa-lock text-xs text-white"></i>';
+                link.style.position = 'relative';
+                link.appendChild(lockIcon);
+            }
+
+            // Aggiungi event listener
+            link.addEventListener('click', handleBlockedSocialClick);
+        });
+    }
+
+    // RIPRISTINA I SOCIAL LINKS COMPLETI
+    function restoreSocialPlaceholders() {
+        const socialLinks = document.querySelectorAll('footer a[data-original-href]');
+
+        socialLinks.forEach(link => {
+            // Ripristina href e classe
+            link.href = link.dataset.originalHref;
+            link.className = link.dataset.originalClass;
+            link.style.position = '';
+
+            // Rimuovi lock icon
+            const lockIcon = link.querySelector('.cookie-lock');
+            if (lockIcon) {
+                lockIcon.remove();
+            }
+
+            // Rimuovi event listener
+            link.removeEventListener('click', handleBlockedSocialClick);
+        });
+    }
+
+
+
+    // Aggiungi il check dei cookie al tuo DOMContentLoaded esistente
+    document.addEventListener('DOMContentLoaded', function() {
+        // Il tuo codice esistente...
+
+        // Aggiungi il controllo dei cookie
+        checkCookieConsent();
+    });
+    // Aggiungi queste traduzioni
+    const additionalCookieTranslations = {
+        it: {
+            footerCookiePolicy: "Informativa Cookie",
+            footerCookieSettings: "Impostazioni Cookie",
+            footerCredit: "Designed & Developed by Tempora Innovation"
+        },
+        en: {
+            footerCookiePolicy: "Cookie Policy",
+            footerCookieSettings: "Cookie Settings",
+            footerCredit: "Designed & Developed by Tempora Innovation"
+        }
+    };
+
+    // Integra con le traduzioni esistenti
+    Object.keys(additionalCookieTranslations).forEach(lang => {
+        if (translations[lang]) {
+            Object.assign(translations[lang], additionalCookieTranslations[lang]);
+        }
+    });
+</script>
 </body>
 </html>
